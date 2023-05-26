@@ -11,6 +11,10 @@ $subMenuHover:#001528;
 
 $sideBarWidth: 210px;
 
+
+//主题色
+$theme:#18b1b1;
+
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 :export {
   menuText: $menuText;
@@ -21,4 +25,5 @@ $sideBarWidth: 210px;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
+  theme:$theme;
 }

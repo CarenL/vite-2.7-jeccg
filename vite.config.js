@@ -42,8 +42,10 @@ function configCompressPlugin(isBuild, compress) {
 export default ({ mode }) => {
   const isBuild = mode === 'production';
   const port = loadEnv(mode, process.cwd()).PORT || 9528;
+  const params = loadEnv(mode, process.cwd());
+  console.log(params);
   return defineConfig({
-    base: './',
+    base: params.VITE_APP_PUBLIC_PATH,
     assetsDir: 'src',
     plugins: [
       vue2(),
@@ -61,9 +63,14 @@ export default ({ mode }) => {
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
-        '@index': fileURLToPath(new URL('./src/pages/index', import.meta.url)),
+        '@api': fileURLToPath(new URL('./src/api', import.meta.url)),
+        '@assets': fileURLToPath(new URL('./src/assets', import.meta.url)),
+        '@comp': fileURLToPath(new URL('./src/components', import.meta.url)),
+        '@utils': fileURLToPath(new URL('./src/utils', import.meta.url)),
+        '@views': fileURLToPath(new URL('./src/views', import.meta.url)),
         path: 'path-browserify',
       },
+      extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
     },
     server: {
       https: false,
@@ -71,7 +78,14 @@ export default ({ mode }) => {
       host: '0.0.0.0',
       open: true,
       cors: true,
-      proxy: {},
+      // proxy: {
+      //   [params.VITE_APP_API_BASE_URL]: {
+      //     pathRewrite: { [`^${params.VUE_APP_API_BASE_URL}`]: '/gfms-boot' },
+      //     target: 'http://39.104.20.85',
+      //     changeOrigin: true,
+      //     ws: true,
+      //   },
+      // },
       hmr: { overlay: false },
     },
     build: {
@@ -108,16 +122,18 @@ export default ({ mode }) => {
         },
       },
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          modifyVars: {
-            hack: `'true; @import (reference) "${resolve('src/style/variables.module.scss')}";`,
-          },
-          math: 'strict',
-          javascriptEnabled: true,
-        },
-      },
-    },
+    // css: {
+    //   preprocessorOptions: {
+    //     scss: {
+    //       modifyVars: {
+    //         hack: `'true; @import (reference) "${resolve('src/style/variables.module.scss')} ${resolve(
+    //           'src/style/element-variables.scss',
+    //         )}";`,
+    //       },
+    //       math: 'strict',
+    //       javascriptEnabled: true,
+    //     },
+    //   },
+    // },
   });
 };

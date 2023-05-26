@@ -1,8 +1,7 @@
 import { get, post } from '@/utils/request';
 
 export function getCaptchaImage(key) {
-  // return get(`/sys/randomImage/${key}`);
-  return get(`/sys/randomImage`);
+  return get(`/sys/randomImage/${key}`);
 }
 
 export function login(data) {
