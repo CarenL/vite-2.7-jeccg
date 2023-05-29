@@ -43,9 +43,31 @@ Vue.use(VueRouter);
  * all roles can be accessed
  */
 
-export const constantRoutes = [...user, ...home, ...redirect];
+export const constantRoutes = [...user, ...redirect];
 
-export const asyncRoutes = [...form, ...chart];
+//前端控路由
+// export const asyncRouterMap = [
+//   ...form,
+//   ...chart,
+//   { path: '*', redirect: '/404', hidden: true },
+// ];
+
+//后端控路由
+export const asyncRouterMap = [
+  // {
+  //   path: '/',
+  //   name: 'index',
+  //   component: () => import('@/layouts/TabLayout'),
+  //   meta: { title: '主页' },
+  //   redirect: '/home',
+  //   children: [],
+  // },
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true,
+  },
+];
 
 const createRouter = () =>
   new VueRouter({

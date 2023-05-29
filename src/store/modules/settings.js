@@ -1,21 +1,20 @@
 import Vue from 'vue';
-import variables from '@/styles/variables.module.scss';
 import defaultSettings from '@/settings';
 
-const { showSettings, navTheme, layout, contentWidth, fixedHeader, fixSiderbar, colorWeak, tagsView, sidebarLogo } =
+const { showSettings, theme, layout, contentWidth, fixedHeader, fixSiderbar, colorWeak, tagsView, sidebarLogo, menu } =
   defaultSettings;
 
 const state = {
   showSettings: showSettings,
-  theme: variables.theme,
-  navTheme: navTheme,
+  theme: theme,
   layout: layout,
   contentWidth: contentWidth,
   fixedHeader: fixedHeader,
   fixSiderbar: fixSiderbar,
   colorWeak: colorWeak,
   tagsView: tagsView,
-  sidebarLogo: false,
+  sidebarLogo: sidebarLogo,
+  menu: menu,
 };
 
 const mutations = {

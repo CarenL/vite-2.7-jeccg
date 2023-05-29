@@ -21,7 +21,6 @@ export default {
   },
   computed: {
     defaultTheme() {
-      console.log(this.$store.state.settings.theme);
       return this.$store.state.settings.theme;
     },
   },
@@ -29,7 +28,6 @@ export default {
     defaultTheme: {
       handler: function (val, oldVal) {
         this.theme = val;
-        console.log(this.theme, oldVal);
       },
       immediate: true,
     },
@@ -39,7 +37,6 @@ export default {
         if (typeof val !== 'string') return;
         const themeCluster = this.getThemeCluster(val.replace('#', ''));
         const originalCluster = this.getThemeCluster(oldVal.replace('#', ''));
-        console.log(themeCluster, originalCluster);
 
         const $message = this.$message({
           message: '  Compiling the theme',

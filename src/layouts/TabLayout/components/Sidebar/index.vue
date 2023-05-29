@@ -22,7 +22,7 @@
 import { mapGetters } from 'vuex';
 import Logo from './Logo.vue';
 import SidebarItem from './SidebarItem.vue';
-import variables from '@/styles/variables.module.scss';
+// import variables from '@/styles/variables.module.scss';
 
 export default {
   components: { SidebarItem, Logo },
@@ -30,6 +30,9 @@ export default {
     ...mapGetters(['sidebar', 'permission_routes']),
     routes() {
       return this.$router.options.routes;
+    },
+    variables() {
+      return this.$store.state.settings.menu;
     },
     activeMenu() {
       const route = this.$route;
@@ -43,9 +46,9 @@ export default {
     showLogo() {
       return this.$store.state.settings.sidebarLogo;
     },
-    variables() {
-      return variables;
-    },
+    // variables() {
+    //   return variables;
+    // },
     isCollapse() {
       return !this.sidebar.opened;
     },

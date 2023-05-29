@@ -1,4 +1,4 @@
-import TabLayout from '@/layout/TabLayout/index.vue';
+import TabLayout from '@/layouts/TabLayout/index.vue';
 export default [
   {
     path: '/chart',

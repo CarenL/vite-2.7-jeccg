@@ -4,7 +4,6 @@ import { Message } from 'element-ui';
 import NProgress from 'nprogress'; // progress bar
 import 'nprogress/nprogress.css'; // progress bar style
 import { getToken } from '@/utils/auth'; // get token from cookie
-import { generateIndexRouter } from '@/utils/permission';
 import getPageTitle from '@/utils/get-page-title';
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
@@ -55,19 +54,18 @@ router.beforeEach(async (to, from, next) => {
 
       if (store.getters.permissionList.length === 0) {
         store
-          .dispatch('GetPermissionList')
+          .dispatch('user/getPermissionList')
           .then((res) => {
             const menuData = res.result.menu;
             if (menuData === null || menuData === '' || menuData === undefined) {
               return;
             }
-            let constRoutes = [];
-            constRoutes = generateIndexRouter(menuData);
             // 添加主界面路由
-            store.dispatch('permission/updateAppRouter', { constRoutes }).then(() => {
+            store.dispatch('permission/updateAppRouter', { menuData }).then((addRouters) => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
-              store.getters.addRouters.forEach((item) => router.addRoute(item));
+              console.log(addRouters);
+              addRouters.forEach((item) => router.addRoute(item));
               const redirect = decodeURIComponent(from.query.redirect || to.path);
               if (to.path === redirect) {
                 // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
@@ -83,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
               message: '系统提示',
               description: '请求用户信息失败，请重试！'
             })*/
-            store.dispatch('Logout').then(() => {
+            store.dispatch('user/logout').then(() => {
               next({ path: '/user/login', query: { redirect: to.fullPath } });
             });
           });
