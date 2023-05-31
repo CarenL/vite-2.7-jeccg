@@ -1,97 +1,89 @@
 <template>
   <div class="drawer-container">
     <div>
-      <h3 class="drawer-title">页面设置</h3>
+      <section>
+        <h3 class="section-title">整体风格</h3>
+        <div class="drawer-block">
+          <el-tooltip content="暗色菜单风格" placement="top-start" popper-class="theme-picker-dropdown">
+            <div class="drawer-item" @click="handleMenuTheme('dark')">
+              <img :src="require('@/assets/dark.svg')" alt="dark" />
+              <div class="drawer-item-select" v-if="navTheme === 'dark'">
+                <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-tooltip>
+          <el-tooltip content="亮色菜单风格" placement="top-start" popper-class="theme-picker-dropdown">
+            <div class="drawer-item" @click="handleMenuTheme('light')">
+              <img :src="require('@/assets/light.svg')" alt="light" />
+              <div class="drawer-item-select" v-if="navTheme !== 'dark'">
+                <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-tooltip>
+        </div>
+        <div class="drawer-block-set">
+          <span class="drawer-title">主题色</span>
+          <theme-picker @change="themeChange" class="drawer-picker" />
+        </div>
+      </section>
+      <section>
+        <h3 class="section-title">导航模式</h3>
+        <div class="drawer-block">
+          <el-tooltip content="侧边栏导航" placement="top-start" popper-class="theme-picker-dropdown">
+            <div class="drawer-item" @click="handleLayout('sidemenu')">
+              <img :src="require('@/assets/sidebarIcon.png')" alt="sidemenu" />
+              <div class="drawer-item-select" v-if="layout === 'sidemenu'">
+                <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-tooltip>
 
-      <div class="drawer-item">
-        <span>主题色</span>
-        <theme-picker style="float: right; height: 26px; margin: -3px 8px 0 0" @change="themeChange" />
-      </div>
+          <el-tooltip content="顶部栏导航" placement="top-start" popper-class="theme-picker-dropdown">
+            <div class="drawer-item" @click="handleLayout('topmenu')">
+              <img :src="require('@/assets/topbarIcon1.png')" alt="topmenu" />
+              <div class="drawer-item-select" v-if="layout === 'topmenu'">
+                <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-tooltip>
 
-      <div class="drawer-item">
-        <span>标签页</span>
-        <el-switch v-model="tagsView" class="drawer-switch" />
-      </div>
+          <el-tooltip content="顶部三级栏导航" placement="top-start" popper-class="theme-picker-dropdown">
+            <div class="drawer-item" @click="handleLayout('topTreemenu')">
+              <img :src="require('@/assets/topbarIcon2.png')" alt="topTreemenu" />
+              <div class="drawer-item-select" v-if="layout === 'topTreemenu'">
+                <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-tooltip>
+        </div>
+        <div class="drawer-block-set" v-if="layout !== 'sidemenu'">
+          <span class="drawer-title">内容区域宽度</span>
+          <el-select v-model="contentWidth" size="mini" popper-class="theme-picker-dropdown">
+            <el-option label="固定" value="Fixed"></el-option>
+            <el-option label="流式" value="Fluid"></el-option>
+          </el-select>
+        </div>
+        <div class="drawer-block-set">
+          <span class="drawer-title">固定 Header</span>
+          <el-switch v-model="fixedHeader" class="drawer-switch" />
+        </div>
+      </section>
 
-      <div class="drawer-item">
-        <span>导航栏位置</span>
-        <el-select size="mini" v-model="layout" class="drawer-select" popper-class="theme-picker-dropdown">
-          <el-option label="顶部" value="topmenu"></el-option>
-          <el-option label="侧边" value="sidemenu"></el-option>
-        </el-select>
-      </div>
-
-      <div class="drawer-item">
-        <span>固定页头</span>
-        <el-switch v-model="fixedHeader" class="drawer-switch" />
-      </div>
-
-      <div class="drawer-item">
-        <span>侧边栏logo</span>
-        <el-switch v-model="sidebarLogo" class="drawer-switch" />
-      </div>
-
-      <h3 class="drawer-title menu">导航栏样式</h3>
-      <div class="drawer-item">
-        <span>菜单文本颜色</span>
-        <el-color-picker
-          v-model="menuStyle.menuText"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>菜单活动文本颜色</span>
-        <el-color-picker
-          v-model="menuStyle.menuActiveText"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>子菜单活动文本颜色</span>
-        <el-color-picker
-          v-model="menuStyle.subMenuActiveText"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>菜单背景颜色</span>
-        <el-color-picker
-          v-model="menuStyle.menuBg"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>菜单hover颜色</span>
-        <el-color-picker
-          v-model="menuStyle.menuHover"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>子菜单背景颜色</span>
-        <el-color-picker
-          v-model="menuStyle.subMenuBg"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>子菜单hover颜色</span>
-        <el-color-picker
-          v-model="menuStyle.subMenuHover"
-          class="theme-picker drawer-picker"
-          popper-class="theme-picker-dropdown"
-        />
-      </div>
-      <div class="drawer-item">
-        <span>菜单宽度</span>
-        <el-input-number size="mini" :controls="false" v-model="menuStyle.sideBarWidth" class="drawer-picker" />
-      </div>
+      <section>
+        <h3 class="section-title">其他设置</h3>
+        <div class="drawer-block-set">
+          <span class="drawer-title">色弱模式</span>
+          <el-switch v-model="colorWeak" class="drawer-switch" />
+        </div>
+        <div class="drawer-block-set">
+          <span class="drawer-title">多页签模式</span>
+          <el-switch v-model="tagsView" class="drawer-switch" />
+        </div>
+        <div class="drawer-block-set">
+          <span class="drawer-title">侧边栏logo</span>
+          <el-switch v-model="sidebarLogo" class="drawer-switch" />
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -105,13 +97,19 @@ export default {
     return {};
   },
   computed: {
-    layout: {
+    navTheme() {
+      return this.$store.state.settings.navTheme;
+    },
+    layout() {
+      return this.$store.state.settings.layout;
+    },
+    contentWidth: {
       get() {
-        return this.$store.state.settings.layout;
+        return this.$store.state.settings.contentWidth;
       },
       set(val) {
         this.$store.dispatch('settings/changeSetting', {
-          key: 'layout',
+          key: 'contentWidth',
           value: val,
         });
       },
@@ -123,6 +121,17 @@ export default {
       set(val) {
         this.$store.dispatch('settings/changeSetting', {
           key: 'fixedHeader',
+          value: val,
+        });
+      },
+    },
+    colorWeak: {
+      get() {
+        return this.$store.state.settings.colorWeak;
+      },
+      set(val) {
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'colorWeak',
           value: val,
         });
       },
@@ -149,14 +158,23 @@ export default {
         });
       },
     },
-    menuStyle() {
-      return this.$store.state.settings.menu;
-    },
   },
   methods: {
     themeChange(val) {
       this.$store.dispatch('settings/changeSetting', {
         key: 'theme',
+        value: val,
+      });
+    },
+    handleMenuTheme(val) {
+      this.$store.dispatch('settings/changeSetting', {
+        key: 'navTheme',
+        value: val,
+      });
+    },
+    handleLayout(val) {
+      this.$store.dispatch('settings/changeSetting', {
+        key: 'layout',
         value: val,
       });
     },
@@ -171,31 +189,78 @@ export default {
   line-height: 1.5;
   word-wrap: break-word;
 
-  .drawer-title {
-    margin-bottom: 12px;
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 14px;
-    line-height: 22px;
-  }
-
-  .drawer-item {
-    color: rgba(0, 0, 0, 0.65);
-    font-size: 14px;
-    line-height: 28px;
+  section {
     padding: 10px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #e7e7e7;
 
-    .el-select {
-      width: 100px;
-      float: right;
+    &:first-of-type {
+      padding-top: 0;
+    }
+
+    .drawer-block-set {
+      width: 100%;
+      padding: 0;
+      margin: 10px 0;
+      font-size: 14px;
+      line-height: 28px;
+      color: rgba(0, 0, 0, 0.65);
+
+      .el-select {
+        width: 100px;
+        float: right;
+      }
     }
   }
 
-  .menu {
-    margin-top: 20px;
+  .section-title {
+    margin-bottom: 12px;
+    color: rgba(0, 0, 0, 0.85);
+    font-size: 16px;
+    line-height: 22px;
   }
+
+  .drawer-block {
+    display: flex;
+    margin-bottom: 20px;
+
+    .drawer-item {
+      margin-right: 16px;
+      position: relative;
+      border-radius: 4px;
+      cursor: pointer;
+
+      img {
+        width: 48px;
+      }
+
+      .drawer-item-select {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        padding-top: 15px;
+        padding-left: 24px;
+        height: 100%;
+        color: #1890ff;
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .drawer-title {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
   .drawer-switch,
   .drawer-picker {
     float: right;
+  }
+
+  .drawer-switch {
+    margin-top: 4px;
   }
 
   .drawer-picker {

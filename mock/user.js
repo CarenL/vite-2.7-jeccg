@@ -65,6 +65,7 @@ const users = {
         component: 'layouts',
         meta: {
           title: '表单',
+          icon: 'form',
         },
         children: [
           {
@@ -139,6 +140,7 @@ const users = {
         component: 'layouts',
         meta: {
           title: '图表',
+          icon: 'el-icon-s-data',
         },
         children: [
           {

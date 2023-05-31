@@ -1,21 +1,16 @@
 <template>
-  <div class="sidebar-logo-container" :class="{ collapse: collapse }" :style="{ backgroundColor: variables.menuBg }">
+  <div class="sidebar-logo-container" :class="{ collapse: collapse }" :style="{ backgroundColor: backgroundColor }">
     <transition name="sidebarLogoFade">
-      <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 v-else class="sidebar-title">{{ title }}</h1>
-      </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
-        <h1 class="sidebar-title">{{ title }}</h1>
+      <router-link class="sidebar-logo-link" to="/">
+        <img :src="logoUrl" alt="logo" />
       </router-link>
     </transition>
   </div>
 </template>
 
 <script>
-import variables from '@/styles/variables.module.scss';
 import LOGO from '@/assets/logo.png';
+import LOGONAME from '@/assets/logo-name.png';
 export default {
   name: 'SidebarLogo',
   props: {
@@ -25,20 +20,37 @@ export default {
     },
   },
   computed: {
-    variables() {
-      return variables;
+    navTheme() {
+      return this.$store.state.settings.navTheme;
+    },
+    backgroundColor() {
+      if (this.navTheme === 'dark') {
+        return '#002140';
+      } else if (this.navTheme === 'light') {
+        return this.$store.state.settings.theme;
+      }
+    },
+    logoUrl() {
+      if (this.navTheme === 'dark') {
+        return !this.collapse ? window._CONFIG['DARK_LONG_LOGO_URL'] : window._CONFIG['DARK_LOGO_URL'];
+      } else {
+        return !this.collapse ? window._CONFIG['LONG_LOGO_URL'] : window._CONFIG['LOGO_URL'];
+      }
     },
   },
   data() {
     return {
       title: '中财绿值',
       logo: LOGO,
+      logoTitle: LOGONAME,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
+$topHeight: 80px;
+$height: 60px;
 .sidebarLogoFade-enter-active {
   transition: opacity 1.5s;
 }
@@ -51,14 +63,21 @@ export default {
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: $height;
+  line-height: $height;
   text-align: center;
   overflow: hidden;
 
   & .sidebar-logo-link {
-    height: 100%;
     width: 100%;
+    height: 100%;
+    line-height: $height;
+
+    img {
+      display: inline-block;
+      height: 32px;
+      vertical-align: middle;
+    }
 
     & .sidebar-logo {
       width: 32px;
@@ -68,13 +87,8 @@ export default {
     }
 
     & .sidebar-title {
-      display: inline-block;
-      margin: 0;
-      color: #fff;
-      font-weight: 600;
-      line-height: 50px;
-      font-size: 14px;
-      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      width: 62px;
+      height: 20px;
       vertical-align: middle;
     }
   }

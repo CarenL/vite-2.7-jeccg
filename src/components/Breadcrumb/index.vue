@@ -66,10 +66,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$topHeight: 60px;
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;
-  line-height: 50px;
+  line-height: $topHeight;
   margin-left: 8px;
 
   .no-redirect {

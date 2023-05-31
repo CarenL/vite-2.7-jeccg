@@ -1,71 +1,54 @@
 <template>
-  <div class="navbar">
-    <hamburger
-      id="hamburger-container"
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
-
-    <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
-
-    <div class="right-menu">
-      <template v-if="device !== 'mobile'">
-        <search id="header-search" class="right-menu-item" />
-
-        <error-log class="errLog-container right-menu-item hover-effect" />
-
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
-        <el-tooltip content="Global Size" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
-      </template>
-
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <!-- <img
-            src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
-            class="user-avatar"
-          /> -->
-          <span class="username">{{ nickname }}</span>
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <el-dropdown-item @click.native="logout">
-            <span style="display: block">退出</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
+  <div
+    class="navbar"
+    :class="[navTheme, layout]"
+    :style="{ backgroundImage: navbarBg ? 'url(' + navbarBg + ')' : 'none' }"
+  >
+    <slot name="topbar"></slot>
+    <slot name="sidemenu"></slot>
+    <RightMenu />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import Breadcrumb from '@/components/Breadcrumb/index.vue';
-import Hamburger from '@/components/Hamburger/index.vue';
+
 import ErrorLog from '@/components/ErrorLog';
 import Screenfull from '@/components/Screenfull';
 import SizeSelect from '@/components/SizeSelect';
 import Search from '@/components/HeaderSearch';
+import RightMenu from './RightMenu.vue';
+import TopbarBG from '@/assets/topBG1.png';
 
 export default {
   components: {
-    Breadcrumb,
-    Hamburger,
     ErrorLog,
     Screenfull,
     SizeSelect,
     Search,
+    RightMenu,
   },
   computed: {
     ...mapGetters(['sidebar', 'avatar', 'nickname', 'device']),
+    navTheme() {
+      return this.$store.state.settings.navTheme;
+    },
+    layout() {
+      return this.$store.state.settings.layout;
+    },
+    navbarBg() {
+      if (this.layout !== 'sidemenu' && this.navTheme === 'dark') {
+        return TopbarBG;
+      }
+      return '';
+    },
+  },
+  data() {
+    return {
+      topBG: TopbarBG,
+    };
   },
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar');
-    },
     async logout() {
       await this.$store.dispatch('user/logout');
       this.$router.push(`/user?redirect=${this.$route.fullPath}`);
@@ -75,15 +58,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$topHeight: 80px;
+$height: 60px;
 .navbar {
-  height: 50px;
+  height: $height;
   overflow: hidden;
   position: relative;
   background: #fff;
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  &.topmenu {
+    height: $topHeight;
+
+    .hamburger-container {
+      line-height: $topHeight;
+    }
+  }
 
   .hamburger-container {
-    line-height: 46px;
+    line-height: $height;
     height: 100%;
     float: left;
     cursor: pointer;
@@ -107,7 +99,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    line-height: $topHeight;
 
     &:focus {
       outline: none;
@@ -117,7 +109,7 @@ export default {
       display: inline-block;
       padding: 0 8px;
       height: 100%;
-      font-size: 18px;
+      // font-size: 18px;
       color: #5a5e66;
       vertical-align: text-bottom;
 
@@ -135,7 +127,7 @@ export default {
       margin-right: 30px;
 
       .avatar-wrapper {
-        margin-top: 5px;
+        // margin-top: 5px;
         position: relative;
 
         .user-avatar {

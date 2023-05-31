@@ -23,26 +23,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$topHeight: 60px;
 .app-main {
   /* 50= navbar  50  */
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - $topHeight);
   width: 100%;
   position: relative;
   overflow: hidden;
+  box-sizing: content-box;
 }
 
 .fixed-header + .app-main {
-  padding-top: 50px;
+  padding-top: $topHeight;
 }
 
 .hasTagsView {
   .app-main {
-    /* 84 = navbar + tags-view = 50 + 34 */
-    min-height: calc(100vh - 84px);
+    /* 84 = navbar + tags-view = 60 + 34 */
+    min-height: calc(100vh - 94px);
   }
 
   .fixed-header + .app-main {
-    padding-top: 84px;
+    padding-top: 94px;
   }
 }
 </style>

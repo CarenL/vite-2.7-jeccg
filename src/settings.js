@@ -16,6 +16,12 @@ export default {
   theme: '#18b1b1', //主题色
 
   /**
+   * @type {string} dark | light
+   * @description theme for nav menu
+   */
+  navTheme: 'light',
+
+  /**
    * @type {string} sidemenu | topmenu
    * @description nav menu position
    */
@@ -58,16 +64,16 @@ export default {
   sidebarLogo: false,
 
   /* 导航栏样式配置 */
-  menu: {
-    menuText: '#bfcbd9',
-    menuActiveText: '#409EFF',
-    subMenuActiveText: '#f4f4f5',
-    menuBg: '#304156',
-    menuHover: '#263445',
-    subMenuBg: '#1f2d3d',
-    subMenuHover: '#001528',
-    sideBarWidth: 210,
-  },
+  // menu: {
+  //   menuText: '#bfcbd9',
+  //   menuActiveText: '#409EFF',
+  //   subMenuActiveText: '#f4f4f5',
+  //   menuBg: '#304156',
+  //   menuHover: '#263445',
+  //   subMenuBg: '#1f2d3d',
+  //   subMenuHover: '#001528',
+  //   sideBarWidth: 210,
+  // },
 
   /**
    * @type {object}

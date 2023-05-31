@@ -1,8 +1,18 @@
 import Vue from 'vue';
 import defaultSettings from '@/settings';
 
-const { showSettings, theme, layout, contentWidth, fixedHeader, fixSiderbar, colorWeak, tagsView, sidebarLogo, menu } =
-  defaultSettings;
+const {
+  showSettings,
+  theme,
+  layout,
+  contentWidth,
+  fixedHeader,
+  fixSiderbar,
+  colorWeak,
+  tagsView,
+  sidebarLogo,
+  navTheme,
+} = defaultSettings;
 
 const state = {
   showSettings: showSettings,
@@ -14,7 +24,7 @@ const state = {
   colorWeak: colorWeak,
   tagsView: tagsView,
   sidebarLogo: sidebarLogo,
-  menu: menu,
+  navTheme: navTheme,
 };
 
 const mutations = {
