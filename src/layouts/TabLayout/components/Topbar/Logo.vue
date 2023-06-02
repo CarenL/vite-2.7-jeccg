@@ -11,12 +11,6 @@ import LOGO from '@/assets/logo.png';
 import LOGONAME from '@/assets/logo-name.png';
 export default {
   name: 'TopbarLogo',
-  props: {
-    collapse: {
-      type: Boolean,
-      required: true,
-    },
-  },
   computed: {
     navTheme() {
       return this.$store.state.settings.navTheme;

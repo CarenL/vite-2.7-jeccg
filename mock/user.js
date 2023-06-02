@@ -42,7 +42,7 @@ const users = {
     menu: [
       {
         path: '/',
-        component: 'layouts',
+        component: 'layouts/TabLayout',
         redirect: '/home',
         meta: {
           title: '主页',
@@ -62,7 +62,7 @@ const users = {
       {
         name: 'Form',
         path: '/from',
-        component: 'layouts',
+        component: 'layouts/TabLayout',
         meta: {
           title: '表单',
           icon: 'form',
@@ -92,6 +92,50 @@ const users = {
           },
         ],
       },
+      {
+        name: 'System',
+        path: '/system',
+        component: 'layouts/TabLayout',
+        meta: {
+          title: '系统设置',
+          icon: 'el-icon-s-data',
+        },
+        children: [
+          {
+            path: 'data',
+            name: 'Data',
+            component: 'layouts/RouterView',
+            meta: {
+              title: '数据源',
+              icon: 'el-icon-s-data',
+            },
+            children: [
+              {
+                path: 'test1',
+                name: 'Test1',
+                component: 'form/test/test1',
+                meta: {
+                  title: '测试1',
+                  icon: 'el-icon-s-data',
+                  internalOrExternal: false,
+                  keepAlive: false,
+                },
+              },
+              {
+                path: 'test2',
+                name: 'Test2',
+                component: 'form/test/test2',
+                meta: {
+                  title: '测试2',
+                  icon: 'el-icon-s-data',
+                  internalOrExternal: false,
+                  keepAlive: false,
+                },
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   'editor-token': {
@@ -117,7 +161,7 @@ const users = {
     menu: [
       {
         path: '/',
-        component: 'layouts',
+        component: 'layouts/TabLayout',
         redirect: '/home',
         meta: {
           title: '主页',
@@ -137,7 +181,7 @@ const users = {
       {
         name: 'Chart',
         path: '/chart',
-        component: 'layouts',
+        component: 'layouts/TabLayout',
         meta: {
           title: '图表',
           icon: 'el-icon-s-data',

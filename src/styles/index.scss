@@ -1,9 +1,10 @@
-// @import './variables.module.scss';
+@import './variables.module.scss';
 @import './mixin.scss';
 @import './transition.scss';
 @import './element-ui.scss';
-// @import './sidebar.scss';
-// @import './element-variables.scss';
+// @import './element-variables.module.scss';
+@import './sidebar.scss';
+@import '@/styles/topbar.scss';
 
 blockquote,body,button,caption,dd,div,dl,dt,fieldset,figure,form,h1,h2,h3,h4,h5,h6,hr,html,input,legend,li,menu,ol,p,pre,table,td,textarea,th,ul {
   margin: 0;
@@ -50,6 +51,10 @@ body,html {
 
 body{
   font-size: 14px;
+
+  &.colorWeak {
+    filter: invert(80%);
+  }
 }
 
 a {
@@ -107,3 +112,4 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+

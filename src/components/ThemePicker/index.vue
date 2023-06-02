@@ -82,6 +82,10 @@ export default {
 
         this.$emit('change', val);
 
+        //全局css变量定义
+        const body = document.querySelector('body');
+        body.style.setProperty('--primary-color', this.theme);
+
         $message.close();
       },
       immediate: true,

@@ -23,7 +23,13 @@
         </div>
         <div class="drawer-block-set">
           <span class="drawer-title">主题色</span>
-          <theme-picker @change="themeChange" class="drawer-picker" />
+          <!-- <theme-picker @change="themeChange" class="drawer-picker" />-->
+          <el-color-picker
+            v-model="theme"
+            :predefine="['#409EFF', '#1890ff', '#304156', '#212121', '#11a983', '#13c2c2', '#6959CD', '#f5222d']"
+            class="theme-picker drawer-picker"
+            popper-class="theme-picker-dropdown"
+          />
         </div>
       </section>
       <section>
@@ -89,10 +95,10 @@
 </template>
 
 <script>
-import ThemePicker from '@/components/ThemePicker';
+// import ThemePicker from '@/components/ThemePicker';
 
 export default {
-  components: { ThemePicker },
+  // components: { ThemePicker },
   data() {
     return {};
   },
@@ -102,6 +108,17 @@ export default {
     },
     layout() {
       return this.$store.state.settings.layout;
+    },
+    theme: {
+      get() {
+        return this.$store.state.settings.theme;
+      },
+      set(val) {
+        this.$store.dispatch('settings/changeSetting', {
+          key: 'theme',
+          value: val,
+        });
+      },
     },
     contentWidth: {
       get() {
@@ -181,6 +198,22 @@ export default {
   },
 };
 </script>
+<style>
+.theme-message,
+.theme-picker-dropdown {
+  z-index: 99999 !important;
+}
+
+.theme-picker .el-color-picker__trigger {
+  height: 26px !important;
+  width: 26px !important;
+  padding: 2px;
+}
+
+.theme-picker-dropdown .el-color-dropdown__link-btn {
+  display: none;
+}
+</style>
 
 <style lang="scss" scoped>
 .drawer-container {

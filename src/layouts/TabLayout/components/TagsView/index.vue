@@ -201,6 +201,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.module.scss';
+$primary-color: $--color-primary;
+$primary-color: var(--primary-color, $--color-primary);
+
 .tags-view-container {
   height: 50px;
   width: 100%;
@@ -228,9 +232,9 @@ export default {
       }
       &.active {
         // background-color: #42b983;
-        // background-color: v-bind(themeColor);
-        color: v-bind(themeColor);
-        border-bottom: 1px solid v-bind(themeColor);
+        // background-color: $primary-color;
+        color: $primary-color;
+        border-bottom: 1px solid $primary-color;
         font-weight: bold;
         // &::before {
         //   content: '';

@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import defaultSettings from '@/settings';
+import variables from '@/styles/variables.module.scss';
+import { updateTheme, updateWeak } from '@/utils/setting';
 
 const {
   showSettings,
@@ -16,7 +18,7 @@ const {
 
 const state = {
   showSettings: showSettings,
-  theme: theme,
+  theme: variables.theme,
   layout: layout,
   contentWidth: contentWidth,
   fixedHeader: fixedHeader,
@@ -29,6 +31,12 @@ const state = {
 
 const mutations = {
   CHANGE_SETTING: (state, { key, value }) => {
+    if (key === 'theme') {
+      updateTheme(value, state.theme);
+    }
+    if (key === 'colorWeak') {
+      updateWeak(value);
+    }
     // eslint-disable-next-line no-prototype-builtins
     if (state.hasOwnProperty(key)) {
       state[key] = value;

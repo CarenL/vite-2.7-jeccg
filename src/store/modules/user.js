@@ -74,7 +74,7 @@ const actions = {
           Vue.ls.set(UI_CACHE_DB_DICT_DATA, result.sysAllDictItems, 7 * 24 * 60 * 60 * 1000);
           commit('SET_TOKEN', result.token);
           commit('SET_INFO', userInfo);
-          commit('SET_NAME', { username: userInfo.username, realname: userInfo.realname });
+          commit('SET_NAME', { username: userInfo.username, realname: userInfo.realname }, 7 * 24 * 60 * 60 * 1000);
           commit('SET_AVATAR', userInfo.avatar);
           setToken(result.token);
           console.log('登录成功');

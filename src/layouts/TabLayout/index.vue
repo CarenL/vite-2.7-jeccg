@@ -9,12 +9,8 @@
     <div :class="{ hasTagsView: set.needTagsView }" class="main-container">
       <div :class="{ 'fixed-header': set.fixedHeader }">
         <navbar>
-          <template #topbar v-if="set.device !== 'mobile' && set.layout !== 'sidemenu'">
-            <topbar
-              class="topbar-container"
-              :class="[set.navTheme, set.fixedHeader ? 'fixed-sidebar' : '']"
-              v-if="set.device !== 'mobile' && set.layout !== 'sidemenu'"
-            ></topbar>
+          <template #topbar v-if="set.layout !== 'sidemenu'">
+            <topbar class="topbar-container" :class="[set.navTheme, set.fixedHeader ? 'fixed-sidebar' : '']"></topbar>
           </template>
           <template #sidemenu v-if="set.layout === 'sidemenu'">
             <hamburger
@@ -155,190 +151,9 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="scss">
-#app {
-  .sidebar-container {
-    &.fixed-sidebar {
-      position: fixed;
-    }
-  }
-
-  // 侧边栏样式
-  .sidebar {
-    .main-container {
-      margin-left: v-bind('menuStyle.sideBarWidth');
-    }
-  }
-
-  .sidebar-container {
-    width: v-bind('menuStyle.sideBarWidth') !important;
-    background-color: v-bind('menuStyle.menuBg');
-    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.2);
-
-    .el-submenu__title {
-      &:hover {
-        color: v-bind('menuStyle.menuActiveText') !important;
-        background-color: transparent !important;
-      }
-    }
-
-    .submenu-title-noDropdown {
-      &:hover {
-        color: v-bind('menuStyle.menuActiveText') !important;
-        background-color: transparent !important;
-      }
-
-      &.is-active {
-        color: v-bind('menuStyle.menuActiveText') !important;
-        background-color: v-bind('set.theme') !important;
-      }
-    }
-
-    .is-active > .el-submenu__title {
-      color: v-bind('menuStyle.subMenuActiveText') !important;
-      background-color: transparent !important;
-    }
-
-    & .nest-menu .el-submenu > .el-submenu__title,
-    & .el-submenu .el-menu-item {
-      min-width: v-bind('menuStyle.sideBarWidth') !important;
-
-      &:hover {
-        background-color: transparent !important;
-      }
-
-      &.is-active {
-        color: v-bind('menuStyle.subMenuActiveText') !important;
-        background-color: v-bind('set.theme') !important;
-
-        &:hover {
-          background-color: v-bind('set.theme') !important;
-        }
-      }
-
-      &:hover {
-        color: v-bind('menuStyle.subMenuActiveText') !important;
-      }
-    }
-
-    &.light {
-      overflow: visible;
-      box-shadow: none;
-
-      .sidebar-logo-container {
-        overflow: hidden;
-      }
-
-      .el-scrollbar {
-        box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.2);
-      }
-
-      .is-active > .el-submenu__title {
-        color: v-bind('set.theme') !important;
-        background-color: inherit !important;
-      }
-
-      .nest-menu .el-submenu > .el-submenu__title,
-      .el-submenu .el-menu-item {
-        &:hover {
-          background-color: transparent !important;
-        }
-
-        &.is-active {
-          color: v-bind('set.theme') !important;
-          background-color: v-bind('menuStyle.menuActiveBg') !important;
-
-          &:hover {
-            background-color: transparent;
-          }
-
-          &::after {
-            display: block;
-            content: '';
-            width: 4px;
-            height: 100%;
-            position: absolute;
-            right: 0;
-            top: 0;
-            border-radius: 4px;
-            background-color: v-bind('set.theme') !important;
-          }
-        }
-      }
-
-      .el-submenu__title,
-      .el-menu-item {
-        &:hover {
-          color: v-bind('set.theme') !important;
-          background-color: transparent !important;
-        }
-      }
-
-      .submenu-title-noDropdown {
-        background-color: transparent;
-
-        &:hover {
-          background-color: transparent !important;
-        }
-
-        &.is-active {
-          color: v-bind('set.theme') !important;
-          background-color: v-bind('menuStyle.menuActiveBg') !important;
-
-          &::after {
-            display: block;
-            content: '';
-            width: 4px;
-            height: 100%;
-            position: absolute;
-            right: 0;
-            top: 0;
-            border-radius: 4px;
-            background-color: v-bind('set.theme') !important;
-          }
-        }
-      }
-    }
-  }
-
-  .el-menu--collapse .el-menu .el-submenu {
-    min-width: v-bind('menuStyle.sideBarWidth') !important;
-  }
-
-  .mobile {
-    .sidebar-container {
-      transition: transform 0.28s;
-      width: v-bind('menuStyle.sideBarWidth') !important;
-    }
-
-    &.hideSidebar {
-      .sidebar-container {
-        pointer-events: none;
-        transition-duration: 0.3s;
-        transform: translate3d(-100%, 0, 0);
-      }
-    }
-  }
-}
-
-.el-menu--vertical {
-  &.dark {
-    .el-menu-item.is-active {
-      background-color: v-bind('set.theme') !important;
-    }
-  }
-
-  &.light {
-    .el-menu-item.is-active {
-      color: v-bind('set.theme') !important;
-    }
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 @import '@/styles/mixin.scss';
-// @import '@/styles/variables.module.scss';
+@import '@/styles/variables.module.scss';
 
 .app-wrapper {
   @include clearfix;
@@ -371,7 +186,7 @@ onBeforeUnmount(() => {
 
 .sidebar {
   .fixed-header {
-    width: calc(100% - v-bind('menuStyle.sideBarWidth'));
+    width: calc(100% - #{$sideBarWidth});
   }
 }
 

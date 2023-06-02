@@ -1,15 +1,7 @@
 <template>
   <div :class="{ 'has-logo': showLogo }">
-    <logo v-if="showLogo" :collapse="isCollapse" />
-    <el-menu
-      :default-active="activeMenu"
-      :collapse="isCollapse"
-      :text-color="variables.menuText"
-      :unique-opened="false"
-      :active-text-color="variables.menuActiveText"
-      :collapse-transition="false"
-      mode="horizontal"
-    >
+    <logo v-if="showLogo" />
+    <el-menu :default-active="activeMenu" :unique-opened="false" :collapse-transition="false" mode="horizontal">
       <sidebar-item
         v-for="route in permission_routes"
         :key="route.path"
@@ -25,8 +17,6 @@
 import { mapGetters } from 'vuex';
 import Logo from './Logo.vue';
 import SidebarItem from '../Sidebar/SidebarItem.vue';
-import variables from '@/styles/variables.module.scss';
-import variablesLight from '@/styles/variables-light.module.scss';
 
 export default {
   components: { SidebarItem, Logo },
@@ -53,20 +43,9 @@ export default {
     theme() {
       return this.$store.state.settings.theme;
     },
-    variables() {
-      if (this.navTheme === 'dark') {
-        return variables;
-      } else if (this.navTheme === 'light') {
-        return variablesLight;
-      }
-      return '';
-    },
     isCollapse() {
       return !this.sidebar.opened;
     },
   },
 };
 </script>
-<style lang="scss">
-@import '@/styles/topbar.scss';
-</style>

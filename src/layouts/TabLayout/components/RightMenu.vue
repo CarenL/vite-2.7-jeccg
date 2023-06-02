@@ -60,11 +60,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$topHeight: 60px;
+$topHeight: 80px;
+$height: 60px;
+.sidemenu {
+  .right-menu {
+    height: $height;
+    line-height: $height;
+
+    .el-icon-caret-bottom {
+      top: 25px;
+    }
+  }
+
+  &.light {
+    .right-menu-item {
+      color: #fff;
+    }
+  }
+}
+// 顶部菜单栏
+.topmenu {
+  .right-menu {
+    height: $topHeight;
+    line-height: $topHeight;
+
+    .el-icon-caret-bottom {
+      top: 35px !important;
+    }
+  }
+
+  &.dark {
+    .right-menu-item {
+      color: #fff;
+    }
+  }
+}
 .right-menu {
   float: right;
-  height: $topHeight;
-  line-height: $topHeight;
 
   &:focus {
     outline: none;

@@ -1,4 +1,6 @@
-// sidebar
+// sidebar -  dark
+$--color-primary: #18b1b1;
+
 $menuText:#ffffffa6;
 $menuActiveText:#ffffff;
 $subMenuActiveText:#ffffff; //https://github.com/ElemeFE/element/issues/12951
@@ -6,14 +8,29 @@ $subMenuActiveText:#ffffff; //https://github.com/ElemeFE/element/issues/12951
 $menuBg:#001529;
 $menuHover:#001529;
 
-$subMenuBg:#000c17;
-$subMenuHover:#000c17;
+$subMenuBg:#001529;
+$subMenuHover:#001529;
+
+// sidebar  - light
+$menuTextLight:#000000a6;
+$menuActiveTextLight:#000000a6;
+$subMenuActiveTextLight:#000000a6; //https://github.com/ElemeFE/element/issues/12951
+
+$menuBgLight:#ffffff;
+$menuHoverLight:#ffffff;
+
+$subMenuBgLight:#ffffff;
+$subMenuHoverLight:#ffffff;
+$menuActiveBgLight:#e7f1f0;
+
+
 
 $sideBarWidth: 210px;
 
 
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 :export {
+  theme:$--color-primary;
   menuText: $menuText;
   menuActiveText: $menuActiveText;
   subMenuActiveText: $subMenuActiveText;
@@ -21,5 +38,13 @@ $sideBarWidth: 210px;
   menuHover: $menuHover;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
+  menuTextLight: $menuText;
+  menuActiveTextLight: $menuActiveText;
+  subMenuActiveTextLight: $subMenuActiveText;
+  menuBgLight: $menuBg;
+  menuHoverLight: $menuHover;
+  subMenuBgLight: $subMenuBg;
+  subMenuHoverLight: $subMenuHover;
+  menuActiveBgLight:$menuActiveBgLight;
   sideBarWidth: $sideBarWidth;
 }

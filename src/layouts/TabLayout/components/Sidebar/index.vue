@@ -5,10 +5,7 @@
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
-        :background-color="variables.menuBg"
-        :text-color="variables.menuText"
         :unique-opened="false"
-        :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"
       >
@@ -22,8 +19,6 @@
 import { mapGetters } from 'vuex';
 import Logo from './Logo.vue';
 import SidebarItem from './SidebarItem.vue';
-import variables from '@/styles/variables.module.scss';
-import variablesLight from '@/styles/variables-light.module.scss';
 
 export default {
   components: { SidebarItem, Logo },
@@ -47,21 +42,9 @@ export default {
     navTheme() {
       return this.$store.state.settings.navTheme;
     },
-    variables() {
-      if (this.navTheme === 'dark') {
-        return variables;
-      } else if (this.navTheme === 'light') {
-        return variablesLight;
-      }
-      return '';
-    },
     isCollapse() {
       return !this.sidebar.opened;
     },
   },
 };
 </script>
-
-<style lang="scss">
-@import '@/styles/sidebar.scss';
-</style>

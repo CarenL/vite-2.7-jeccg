@@ -1,3 +1,7 @@
+//主题切换导致的侧边栏颜色切换
+$primary-color:$--color-primary;
+$primary-color:var(--primary-color,$--color-primary);
+
 .topbar-container {
   display: inline-block;
   width: calc(100% - 300px);
@@ -17,56 +21,218 @@
     .topbar-menu-item {
       display: inline-block;
       vertical-align: top;
+
+      .el-menu-item,.el-submenu{
+        padding: 0 20px!important;
+
+        .el-submenu__title{
+          padding: 0;
+        }
+
+        .svg-icon{
+          margin-left: 0!important;
+          margin-right: 10px;
+        }
+      }
+
+      .submenu-title-noDropdown,.el-submenu{
+        height: 60px !important;
+        position: relative;
+        line-height: 60px !important;
+        color: #fff !important;
+
+
+        .el-submenu__title{
+          color: #fff;
+          background-color: transparent;
+
+          .el-submenu__icon-arrow{
+            display: none;
+          }
+
+          &:hover{
+            color: #00fdff !important;
+          }
+        }
+
+        &:hover,&.is-active,&.is-opened{
+          color: #00fdff !important;
+          background: linear-gradient(180deg, #1c31a8, #3352ff) !important;
+
+          .el-submenu__title{
+            color: #00fdff !important;
+          }
+        }
+
+        &.is-opened::before,&:hover::before,&.is-active::before{
+          content: '';
+          width: 100%;
+          left: 0;
+          top: 0;
+          display: inline-block;
+          height: 3px;
+          position: absolute;
+          background: linear-gradient(270deg, #3352ff, #00fdff);
+        }
+      }
     }
   }
 
-  .el-menu--horizontal .submenu-title-noDropdown,
-  .el-menu--horizontal .el-submenu,
-  .el-menu--horizontal .el-submenu .el-submenu__title
-   {
-    height: 60px !important;
-    position: relative;
-    line-height: 60px !important;
-    color: #fff!important;
-
-    &:hover,&.is-active{
-      color: #00fdff !important;
-      background: linear-gradient(180deg, #1c31a8, #3352ff) !important
+  &.light{
+    .el-menu{
+      margin-top: 0;
     }
 
-    &:hover::before,&.is-active::before{
-      content: '';
-      width: 100%;
-      left: 0;
-      top: 0;
+    .topbar-menu-item {
       display: inline-block;
-      height: 3px;
-      position: absolute;
-      background: linear-gradient(270deg, #3352ff, #00fdff);
+      vertical-align: top;
+
+      .el-menu-item,.el-submenu{
+        padding: 0 20px!important;
+        .svg-icon{
+          margin-left: 0!important;
+          margin-right: 10px;
+        }
+      }
+
+      .submenu-title-noDropdown,.el-submenu{
+        height: 80px !important;
+        position: relative;
+        line-height: 80px !important;
+        color: #000000a6!important;
+
+        .el-submenu__title{
+          padding: 0;
+          line-height: 80px !important;
+          color: #000000a6;
+          background-color: transparent;
+
+          &:hover{
+            color: $primary-color !important;
+          }
+        }
+
+
+        &.is-opened::after{
+          display: block;
+          content: '';
+          height: 2px;
+          width: 100%;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          border-radius: 4px;
+          background-color: $primary-color !important;
+        }
+
+        &:hover,&.is-active,&.is-opened{
+          color: $primary-color !important;
+          background: transparent !important;
+
+          .el-submenu__title{
+            color: $primary-color !important;
+          }
+        }
+
+
+        &.is-opened::before,&:hover::before,&.is-active::before{
+          content: '';
+          width: 100%;
+          left: 0;
+          top: 0;
+          display: inline-block;
+          height: 3px;
+          position: absolute;
+          background: transparent;
+        }
+      }
+    }
+  }
+}
+
+
+.el-menu--horizontal{
+  .el-menu--popup{
+    min-width: 150px;
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+
+    .el-menu-item{
+      height: 40px;
+      line-height: 40px;
     }
 
+    .el-menu-item,.el-submenu__title{
+      color: #000000a6 ;
+      background-color: #fff !important;
+
+      &:hover{
+        color:$primary-color !important;
+        background-color: #fff !important;
+      }
+
+      &.is-active{
+        color:$primary-color !important;
+        background-color: #fff !important;
+      }
+    }
   }
 
-  // .el-menu--horizontal .el-submenu__title{
-  //   height: 60px !important;
-  //   position: relative;
-  //   line-height: 60px !important;
-  //   color: #fff!important;
-  //   &:hover,&.is-active{
-  //     color: #00fdff !important;
-  //     background: linear-gradient(180deg, #1c31a8, #3352ff) !important
-  //   }
+  &>.el-menu {
+    .svg-icon {
+      margin-right: 16px;
+    }
+    .sub-el-icon {
+      margin-right: 12px;
+      margin-left: -2px;
+    }
+  }
 
-  //   &:hover::before,&.is-active{
-  //       content: '';
-  //       width: 100%;
-  //       left: 0;
-  //       top: 0;
-  //       display: inline-block;
-  //       height: 3px;
-  //       position: absolute;
-  //       background: linear-gradient(270deg, #3352ff, #00fdff);
+  // &.light{
+  //   .el-menu{
+  //     background-color: $menuBgLight;
+
+  //     .el-menu-item{
+  //       height: 40px;
+  //       line-height: 40px;
+  //     }
+
+  //     .el-menu-item,.el-submenu__title{
+  //       background-color: $menuBgLight !important;
+
+  //       &:hover{
+  //         color: $primary-color;
+  //         background-color: $menuHoverLight !important;
+  //       }
+
+  //       &.is-active{
+  //         background-color: $menuActiveBgLight !important;
+  //       }
+  //     }
   //   }
+  // }
+
+  // &.dark{
+
+    .el-menu-item{
+      height: 40px;
+      line-height: 40px;
+    }
+
+    // .el-menu-item,.el-submenu__title{
+    //   color: #000000a6 ;
+    //   background-color: #fff !important;
+
+    //   &:hover{
+    //     color:$primary-color !important;
+    //     background-color: #fff !important;
+    //   }
+
+    //   &.is-active{
+    //     color:$primary-color !important;
+    //     background-color: #fff !important;
+    //   }
+    // }
   // }
 }
 

@@ -3,6 +3,8 @@ import Vue from 'vue';
 import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui';
+import variables from '@/styles/variables.module.scss';
+// import '@/styles/element-variables.scss';
 import 'element-ui/lib/theme-chalk/index.css';
 // import locale from 'element-ui/lib/locale/lang/en'; // lang i18n
 
@@ -70,8 +72,10 @@ function main() {
         key: 'autoHideHeader',
         value: Vue.ls.get('autoHideHeader', config.autoHideHeader),
       });
-      store.dispatch('settings/changeSetting', { key: 'weak', value: Vue.ls.get('weak', config.colorWeak) });
-      store.dispatch('settings/changeSetting', { key: 'theme', value: Vue.ls.get('theme', config.theme) });
+      store.dispatch('settings/changeSetting', { key: 'colorWeak', value: Vue.ls.get('colorWeak', config.colorWeak) });
+      store.dispatch('settings/changeSetting', { key: 'theme', value: Vue.ls.get('theme', variables.theme) });
+      store.dispatch('settings/changeSetting', { key: 'navTheme', value: Vue.ls.get('navTheme', config.navTheme) });
+      store.dispatch('settings/changeSetting', { key: 'layout', value: Vue.ls.get('layout', config.layout) });
       store.dispatch('settings/changeSetting', {
         key: 'tagsView',
         value: Vue.ls.get('tagsView', config.tagsView),

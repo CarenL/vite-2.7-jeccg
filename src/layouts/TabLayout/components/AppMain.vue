@@ -23,10 +23,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$topHeight: 60px;
+$topHeight: 80px;
+$height: 60px;
 .app-main {
   /* 50= navbar  50  */
-  min-height: calc(100vh - $topHeight);
+  min-height: calc(100vh - $height);
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -34,17 +35,43 @@ $topHeight: 60px;
 }
 
 .fixed-header + .app-main {
-  padding-top: $topHeight;
+  padding-top: $height;
 }
 
 .hasTagsView {
   .app-main {
-    /* 84 = navbar + tags-view = 60 + 34 */
-    min-height: calc(100vh - 94px);
+    /* 84 = navbar + tags-view = 60 + 50 */
+    min-height: calc(100vh - 110px);
   }
 
   .fixed-header + .app-main {
-    padding-top: 94px;
+    padding-top: 110px;
+  }
+}
+// 顶部菜单栏
+.topbar {
+  .app-main {
+    /* 50= navbar  50  */
+    min-height: calc(100vh - $topHeight);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    box-sizing: content-box;
+  }
+
+  .fixed-header + .app-main {
+    padding-top: $topHeight;
+  }
+
+  .hasTagsView {
+    .app-main {
+      /* 84 = navbar + tags-view = 80 + 50 */
+      min-height: calc(100vh - 130px);
+    }
+
+    .fixed-header + .app-main {
+      padding-top: 130px;
+    }
   }
 }
 </style>
