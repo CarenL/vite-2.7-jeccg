@@ -85,54 +85,9 @@ $primary-color:var(--primary-color,$--color-primary);
       height: 100%;
       width: 100% !important;
       background-color: $menuBg;
-    }
-
-    .el-menu-item,.el-submenu__title,.el-submenu .el-menu-item{
-      height: 40px;
-      line-height: 40px;
-
-      color: $menuText !important;
-      background-color: $menuBg !important;
-    }
-
-    // menu hover
-    .submenu-title-noDropdown,
-    .el-submenu__title {
-      &:hover {
-        color: $menuActiveText !important;
-        background-color: $menuHover !important;
-      }
-
-      &.is-active{
-        background-color: $primary-color !important;
-      }
-    }
-
-    .is-active>.el-submenu__title {
-      color: $subMenuActiveText !important;
-      background-color: $menuHover !important;
-    }
-
-    & .nest-menu .el-submenu>.el-submenu__title,
-    & .el-submenu .el-menu-item {
-      min-width: $sideBarWidth !important;
-      background-color: $subMenuBg !important;
-
-      &:hover {
-        background-color: transparent !important;
-      }
-
-      &.is-active {
-        color: $subMenuActiveText !important;
-        background-color: $primary-color !important;
-
-        &:hover {
-          background-color: $primary-color !important;
-        }
-      }
-
-      &:hover {
-        color: $subMenuActiveText !important;
+      
+      .el-submenu [class^=el-icon-]{
+        text-align: left;
       }
     }
   }
@@ -149,78 +104,6 @@ $primary-color:var(--primary-color,$--color-primary);
     .el-scrollbar {
       box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.2);
     }
-
-    .el-menu{
-      background-color: $menuBgLight;
-    }
-
-    .is-active > .el-submenu__title {
-      color: $primary-color !important;
-      background-color: inherit !important;
-    }
-
-    .nest-menu .el-submenu > .el-submenu__title,
-    .el-submenu .el-menu-item {
-      &:hover {
-        background-color: transparent !important;
-      }
-
-      &.is-active {
-        color: $primary-color !important;
-        background-color: $menuActiveBgLight !important;
-
-        &:hover {
-          background-color: transparent;
-        }
-
-        &::after {
-          display: block;
-          content: '';
-          width: 4px;
-          height: 100%;
-          position: absolute;
-          right: 0;
-          top: 0;
-          border-radius: 4px;
-          background-color: $primary-color !important;
-        }
-      }
-    }
-
-    .el-submenu__title,
-    .el-menu-item {
-      color: $menuTextLight !important;
-      background-color: transparent!important;
-      &:hover {
-        color: $primary-color !important;
-        background-color: transparent !important;
-      }
-    }
-
-    .submenu-title-noDropdown {
-      background-color: transparent;
-
-      &:hover {
-        background-color: transparent !important;
-      }
-
-      &.is-active {
-        color: $primary-color !important;
-        background-color: $menuActiveBgLight !important;
-
-        &::after {
-          display: block;
-          content: '';
-          width: 4px;
-          height: 100%;
-          position: absolute;
-          right: 0;
-          top: 0;
-          border-radius: 4px;
-          background-color: $primary-color !important;
-        }
-      }
-    }
   }
 
   .hideSidebar {
@@ -232,58 +115,54 @@ $primary-color:var(--primary-color,$--color-primary);
       margin-left: 54px;
     }
 
-    &.topbar{
-      .main-container{
-        margin-left: 0;
-      }
-    }
-
-    .submenu-title-noDropdown {
-      padding: 0 !important;
-      position: relative;
-
-      .el-tooltip {
+    &.sidebar{
+      .submenu-title-noDropdown {
         padding: 0 !important;
-
-        .svg-icon {
-          margin-left: 20px;
-        }
-
-        .sub-el-icon {
-          margin-left: 19px;
-        }
-      }
-    }
-
-    .el-submenu {
-      overflow: hidden;
-
-      &>.el-submenu__title {
-        padding: 0 !important;
-
-        .svg-icon {
-          margin-left: 20px;
-        }
-
-        .sub-el-icon {
-          margin-left: 19px;
-        }
-
-        .el-submenu__icon-arrow {
-          display: none;
+        position: relative;
+  
+        .el-tooltip {
+          padding: 0 !important;
+  
+          .svg-icon {
+            margin-left: 20px;
+          }
+  
+          .sub-el-icon {
+            margin-left: 18px;
+          }
         }
       }
-    }
-
-    .el-menu--collapse {
+  
       .el-submenu {
+        overflow: hidden;
+  
         &>.el-submenu__title {
-          &>span {
-            height: 0;
-            width: 0;
-            overflow: hidden;
-            visibility: hidden;
-            display: inline-block;
+          padding: 0 !important;
+  
+          .svg-icon {
+            margin-left: 20px;
+          }
+  
+          .sub-el-icon {
+            margin-left: 18px;
+          }
+  
+          .el-submenu__icon-arrow {
+            display: none;
+          }
+        }
+      }
+  
+      .el-menu--collapse {
+        .el-submenu {
+          &>.el-submenu__title {
+            &>span {
+              height: 0;
+              width: 0;
+              overflow: hidden;
+              visibility: hidden;
+              display: inline-block;
+            }
           }
         }
       }
@@ -325,31 +204,50 @@ $primary-color:var(--primary-color,$--color-primary);
 
 //menu popoup
 
-.el-menu--vertical{
+.el-menu--vertical,.sidebar-container{
   .el-menu--popup{
-    min-width: 150px;
+    // min-width: 150px;
+    overflow: visible !important;
   }
   &.light{
     .el-menu{
-      background-color: $menuBgLight;
+      background-color: $menuBgLight!important;
 
       .is-active > .el-submenu__title {
         color: $primary-color !important;
         background-color: inherit !important;
       }
 
-      .el-menu-item,.submenu-title-noDropdown,.el-submenu__title{
+      .el-submenu > .el-submenu__title,
+      .el-menu-item,.submenu-title-noDropdown {
         height: 40px;
         line-height: 40px;
         background-color: $menuBgLight !important;
-
-        &:hover{
-          color: $primary-color;
-          background-color: $menuHoverLight !important;
+        
+        &:hover {
+          color: $primary-color !important;
+          background-color: transparent !important;
         }
-
-        &.is-active{
+  
+        &.is-active {
+          color: $primary-color !important;
           background-color: $menuActiveBgLight !important;
+  
+          &:hover {
+            background-color: $menuActiveBgLight  !important;
+          }
+  
+          &::after {
+            display: block;
+            content: '';
+            width: 4px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            border-radius: 4px;
+            background-color: $primary-color !important;
+          }
         }
       }
     }
@@ -358,29 +256,31 @@ $primary-color:var(--primary-color,$--color-primary);
   &.dark{
     .el-menu{
       background-color: $menuBg;
-    }
 
-    .is-active>.el-submenu__title {
-      color: $subMenuActiveText !important;
-      background-color: $menuHover !important;
-    }
-
-    .el-menu-item,.submenu-title-noDropdown,.el-submenu__title{
-      height: 40px;
-      line-height: 40px;
-      color: $menuText;
-      background-color: $menuBg !important;
-
-      &:hover{
-        color:$menuActiveText !important;
+      .is-active>.el-submenu__title {
+        color: $subMenuActiveText !important;
         background-color: $menuHover !important;
       }
 
-      &.is-active{
-        color:$menuActiveText !important;
-        background-color: $primary-color !important;
+      .el-submenu > .el-submenu__title,
+      .el-menu-item,.submenu-title-noDropdown {
+        height: 40px;
+        line-height: 40px;
+        color: $menuText;
+        background-color: $menuBg !important;
+
+        &:hover{
+          color:$menuActiveText !important;
+          background-color: $menuHover !important;
+        }
+
+        &.is-active{
+          color:$menuActiveText !important;
+          background-color: $primary-color !important;
+        }
       }
     }
+
   }
 }
 
