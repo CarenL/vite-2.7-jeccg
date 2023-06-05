@@ -190,7 +190,7 @@ onBeforeUnmount(() => {
   }
 }
 
-.hideSidebar .fixed-header {
+.hideSidebar.sidebar .fixed-header {
   width: calc(100% - 54px);
 }
 

@@ -8,6 +8,7 @@
         :item="route"
         :base-path="route.path"
         class="topbar-menu-item"
+        :layout="layout"
       />
     </el-menu>
   </div>
@@ -42,6 +43,9 @@ export default {
     },
     theme() {
       return this.$store.state.settings.theme;
+    },
+    layout() {
+      return this.$store.state.settings.layout;
     },
     isCollapse() {
       return !this.sidebar.opened;

@@ -74,7 +74,8 @@ $height: 60px;
   &.sidemenu.light {
     background: $primary-color;
   }
-  &.topmenu {
+  &.topmenu,
+  &.topTreemenu {
     height: $topHeight;
 
     .hamburger-container {

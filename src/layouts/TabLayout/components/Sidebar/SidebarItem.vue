@@ -14,18 +14,36 @@
       </app-link>
     </template>
 
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" :popper-class="navTheme">
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" :popper-class="navTheme + ' ' + layout">
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-        class="nest-menu"
-      />
+      <template v-if="layout != 'topTreemenu' || (layout === 'topTreemenu' && hasNoThirdChild(item.children, item))">
+        <sidebar-item
+          v-for="child in item.children"
+          :key="child.path"
+          :is-nest="true"
+          :item="child"
+          :base-path="resolvePath(child.path)"
+          class="nest-menu"
+        />
+      </template>
+      <template v-else>
+        <el-menu-item-group v-for="child in item.children" :key="child.path" class="nest-menu">
+          <template #title>
+            {{ child.meta.title }}
+          </template>
+          <sidebar-item
+            v-for="child1 in child.children"
+            :key="child1.path"
+            :is-nest="true"
+            :item="child1"
+            :base-path="resolvePath(child1.path, child.path)"
+            layout="topmenu"
+            class="nest-menu"
+          />
+        </el-menu-item-group>
+      </template>
     </el-submenu>
   </div>
 </template>
@@ -54,6 +72,10 @@ export default {
     basePath: {
       type: String,
       default: '',
+    },
+    layout: {
+      type: String,
+      default: 'sidemenu',
     },
   },
   computed: {
