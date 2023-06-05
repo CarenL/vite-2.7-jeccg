@@ -12,7 +12,11 @@ import '@/styles/index.scss'; // global css
 
 import App from './App.vue';
 import router from './router';
-import store from './store';
+// use Vuex as store
+// import store from './store';
+// use Pinia as store
+import { PiniaVuePlugin } from 'pinia';
+import store, { useAppStore, useSettingsStore } from './piniaStores';
 import Storage from 'vue-ls';
 
 import '@/icons'; // icon
@@ -48,39 +52,43 @@ SSO.init(async () => {
   main();
 });
 
+Vue.use(PiniaVuePlugin);
+
 function main() {
   new Vue({
+    pinia: store,
     router,
-    store,
     mounted() {
-      store.dispatch('app/setSidebar', Vue.ls.get(SIDEBAR_TYPE, true));
-      store.dispatch('app/setSize', Vue.ls.get(SIZE_TYPE, 'medium'));
-      store.dispatch('settings/changeSetting', { key: 'layout', value: Vue.ls.get('layout', config.layout) });
-      store.dispatch('settings/changeSetting', {
+      let appStore = useAppStore();
+      let settingsStore = useSettingsStore();
+      appStore.setSidebar(Vue.ls.get(SIDEBAR_TYPE, true));
+      appStore.setSize(Vue.ls.get(SIZE_TYPE, 'medium'));
+      settingsStore.changeSetting({ key: 'layout', value: Vue.ls.get('layout', config.layout) });
+      settingsStore.changeSetting({
         key: 'fixedHeader',
         value: Vue.ls.get('fixedHeader', config.fixedHeader),
       });
-      store.dispatch('settings/changeSetting', {
+      settingsStore.changeSetting({
         key: 'fixSiderbar',
         value: Vue.ls.get('fixSiderbar', config.fixSiderbar),
       });
-      store.dispatch('settings/changeSetting', {
+      settingsStore.changeSetting({
         key: 'contentWidth',
         value: Vue.ls.get('contentWidth', config.contentWidth),
       });
-      store.dispatch('settings/changeSetting', {
+      settingsStore.changeSetting({
         key: 'autoHideHeader',
         value: Vue.ls.get('autoHideHeader', config.autoHideHeader),
       });
-      store.dispatch('settings/changeSetting', { key: 'colorWeak', value: Vue.ls.get('colorWeak', config.colorWeak) });
-      store.dispatch('settings/changeSetting', { key: 'theme', value: Vue.ls.get('theme', variables.theme) });
-      store.dispatch('settings/changeSetting', { key: 'navTheme', value: Vue.ls.get('navTheme', config.navTheme) });
-      store.dispatch('settings/changeSetting', { key: 'layout', value: Vue.ls.get('layout', config.layout) });
-      store.dispatch('settings/changeSetting', {
+      settingsStore.changeSetting({ key: 'colorWeak', value: Vue.ls.get('colorWeak', config.colorWeak) });
+      settingsStore.changeSetting({ key: 'theme', value: Vue.ls.get('theme', variables.theme) });
+      settingsStore.changeSetting({ key: 'navTheme', value: Vue.ls.get('navTheme', config.navTheme) });
+      settingsStore.changeSetting({ key: 'layout', value: Vue.ls.get('layout', config.layout) });
+      settingsStore.changeSetting({
         key: 'tagsView',
         value: Vue.ls.get('tagsView', config.tagsView),
       });
-      store.dispatch('settings/changeSetting', {
+      settingsStore.changeSetting({
         key: 'sidebarLogo',
         value: Vue.ls.get('sidebarLogo', config.sidebarLogo),
       });

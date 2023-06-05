@@ -18,7 +18,7 @@
             src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
             class="user-avatar"
           /> -->
-        <span class="username">{{ nickname }}</span>
+        <span class="username">{{ realname }}</span>
         <i class="el-icon-caret-bottom" />
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapActions } from 'pinia';
+import { useAppStore, useUserStore, useSettingsStore } from '@/piniaStores';
 import ErrorLog from '@/components/ErrorLog';
 import Screenfull from '@/components/Screenfull';
 import SizeSelect from '@/components/SizeSelect';
@@ -45,16 +46,21 @@ export default {
     Search,
   },
   computed: {
-    ...mapGetters(['avatar', 'nickname', 'device']),
-    theme() {
-      return this.$store.state.settings.theme;
-    },
+    ...mapState(useUserStore, ['avatar', 'realname']),
+    ...mapState(useSettingsStore, {
+      theme: (store) => store.theme,
+    }),
+    ...mapState(useAppStore, ['device']),
+  },
+  created() {
+    console.log(this.nickname);
   },
   methods: {
     async logout() {
-      await this.$store.dispatch('user/logout');
+      await this.logout();
       this.$router.push(`/user?redirect=${this.$route.fullPath}`);
     },
+    ...mapActions(useUserStore, ['logout']),
   },
 };
 </script>
@@ -79,7 +85,8 @@ $height: 60px;
   }
 }
 // 顶部菜单栏
-.topmenu {
+.topmenu,
+.topTreemenu {
   .right-menu {
     height: $topHeight;
     line-height: $topHeight;

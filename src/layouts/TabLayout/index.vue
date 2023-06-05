@@ -41,30 +41,32 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue';
 import Hamburger from '@/components/Hamburger/index.vue';
 import variables from '@/styles/variables.module.scss';
 import variablesLight from '@/styles/variables-light.module.scss';
+import { useAppStore, useSettingsStore } from '@/piniaStores';
 
 //https://cn.vuejs.org/api/reactivity-core.html
-const store = useStore();
+const appStore = useAppStore();
+const settingsStore = useSettingsStore();
 const set = reactive({
   sidebar: computed(() => {
-    return store.state.app.sidebar;
+    return appStore.sidebar;
   }),
   device: computed(() => {
-    return store.state.app.device;
+    return appStore.device;
   }),
   fixedHeader: computed(() => {
-    return store.state.settings.fixedHeader;
+    return settingsStore.fixedHeader;
   }),
   showSettings: computed(() => {
-    return store.state.settings.showSettings;
+    return settingsStore.showSettings;
   }),
   needTagsView: computed(() => {
-    return store.state.settings.tagsView;
+    return settingsStore.tagsView;
   }),
   navTheme: computed(() => {
-    return store.state.settings.navTheme;
+    return settingsStore.navTheme;
   }),
   layout: computed(() => {
-    return store.state.settings.layout;
+    return settingsStore.layout;
   }),
   classObj: computed(() => {
     const obj = {
@@ -78,25 +80,16 @@ const set = reactive({
     return obj;
   }),
   theme: computed(() => {
-    return store.state.settings.theme;
+    return settingsStore.theme;
   }),
 });
 
-const menuStyle = computed(() => {
-  if (set.navTheme === 'dark') {
-    return variables;
-  } else if (set.navTheme === 'light') {
-    return variablesLight;
-  }
-  return '';
-});
-
 const handleClickOutside = (params) => {
-  store.dispatch('app/closeSideBar', { withoutAnimation: params });
+  appStore.closeSideBar({ withoutAnimation: params });
 };
 
 const toggleSideBar = () => {
-  store.dispatch('app/toggleSideBar');
+  appStore.toggleSideBar();
 };
 
 const route = useRoute();
@@ -126,7 +119,7 @@ const $_isMobile = () => {
 const $_resizeHandler = () => {
   if (!document.hidden) {
     const isMobile = $_isMobile();
-    store.dispatch('app/toggleDevice', isMobile ? 'mobile' : 'desktop');
+    appStore.toggleDevice(isMobile ? 'mobile' : 'desktop');
 
     if (isMobile) {
       handleClickOutside(true);
@@ -137,7 +130,7 @@ const $_resizeHandler = () => {
 onMounted(() => {
   const isMobile = $_isMobile();
   if (isMobile) {
-    store.dispatch('app/toggleDevice', 'mobile');
+    appStore.toggleDevice('mobile');
     handleClickOutside(true);
   }
 });
@@ -190,7 +183,7 @@ onBeforeUnmount(() => {
   }
 }
 
-.hideSidebar .fixed-header {
+.hideSidebar.sidebar .fixed-header {
   width: calc(100% - 54px);
 }
 

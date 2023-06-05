@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useAppStore } from '@/piniaStores';
 export default {
   data() {
     return {
@@ -29,9 +31,9 @@ export default {
     };
   },
   computed: {
-    size() {
-      return this.$store.getters.size;
-    },
+    ...mapState(useAppStore, {
+      size: (store) => store.size,
+    }),
   },
   methods: {
     handleSetSize(size) {

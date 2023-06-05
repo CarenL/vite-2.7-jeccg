@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useTagsViewStore, usePermissionStore, useSettingsStore } from '@/piniaStores';
 import ScrollPane from './ScrollPane';
 import path from 'path';
 
@@ -41,15 +43,15 @@ export default {
     };
   },
   computed: {
-    visitedViews() {
-      return this.$store.state.tagsView.visitedViews;
-    },
-    routes() {
-      return this.$store.state.permission.routes;
-    },
-    themeColor() {
-      return this.$store.state.settings.theme;
-    },
+    ...mapState(useTagsViewStore, {
+      visitedViews: (store) => store.visitedViews,
+    }),
+    ...mapState(usePermissionStore, {
+      routes: (store) => store.routes,
+    }),
+    ...mapState(useSettingsStore, {
+      themeColor: (store) => store.theme,
+    }),
   },
   watch: {
     $route() {
@@ -101,14 +103,14 @@ export default {
       for (const tag of affixTags) {
         // Must have tag name
         if (tag.name) {
-          this.$store.dispatch('tagsView/addVisitedView', tag);
+          this.addVisitedView(tag);
         }
       }
     },
     addTags() {
       const { name } = this.$route;
       if (name) {
-        this.$store.dispatch('tagsView/addView', this.$route);
+        this.addView(this.$route);
       }
       return false;
     },
@@ -120,7 +122,7 @@ export default {
             this.$refs.scrollPane.moveToTarget(tag);
             // when query is different then update
             if (tag.to.fullPath !== this.$route.fullPath) {
-              this.$store.dispatch('tagsView/updateVisitedView', this.$route);
+              this.updateVisitedView(this.$route);
             }
             break;
           }
@@ -128,7 +130,7 @@ export default {
       });
     },
     refreshSelectedTag(view) {
-      this.$store.dispatch('tagsView/delCachedView', view).then(() => {
+      this.delCachedView(view).then(() => {
         const { fullPath } = view;
         this.$nextTick(() => {
           this.$router.replace({
@@ -138,7 +140,7 @@ export default {
       });
     },
     closeSelectedTag(view) {
-      this.$store.dispatch('tagsView/delView', view).then(({ visitedViews }) => {
+      this.delView(view).then(({ visitedViews }) => {
         if (this.isActive(view)) {
           this.toLastView(visitedViews, view);
         }
@@ -146,12 +148,12 @@ export default {
     },
     closeOthersTags() {
       this.$router.push(this.selectedTag);
-      this.$store.dispatch('tagsView/delOthersViews', this.selectedTag).then(() => {
+      this.delOthersViews(this.selectedTag).then(() => {
         this.moveToCurrentTag();
       });
     },
     closeAllTags(view) {
-      this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
+      this.delAllViews().then(({ visitedViews }) => {
         if (this.affixTags.some((tag) => tag.path === view.path)) {
           return;
         }
@@ -196,6 +198,15 @@ export default {
     handleScroll() {
       this.closeMenu();
     },
+    ...mapActions(useTagsViewStore, [
+      'addVisitedView',
+      'addView',
+      'updateVisitedView',
+      'delCachedView',
+      'delView',
+      'delOthersViews',
+      'delAllViews',
+    ]),
   },
 };
 </script>

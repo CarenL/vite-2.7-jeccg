@@ -134,6 +134,39 @@ const users = {
               },
             ],
           },
+          {
+            path: 'data1',
+            name: 'Data1',
+            component: 'layouts/RouterView',
+            meta: {
+              title: '数据源1',
+              icon: 'el-icon-s-data',
+            },
+            children: [
+              {
+                path: 'test11',
+                name: 'Test11',
+                component: 'form/test2/test1',
+                meta: {
+                  title: '测试11',
+                  icon: 'el-icon-s-data',
+                  internalOrExternal: false,
+                  keepAlive: false,
+                },
+              },
+              {
+                path: 'test21',
+                name: 'Test21',
+                component: 'form/test2/test2',
+                meta: {
+                  title: '测试21',
+                  icon: 'el-icon-s-data',
+                  internalOrExternal: false,
+                  keepAlive: false,
+                },
+              },
+            ],
+          },
         ],
       },
     ],

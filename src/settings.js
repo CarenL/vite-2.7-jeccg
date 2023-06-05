@@ -22,7 +22,7 @@ export default {
   navTheme: 'light',
 
   /**
-   * @type {string} sidemenu | topmenu
+   * @type {string} sidemenu | topmenu |topTreemenu
    * @description nav menu position
    */
   layout: 'sidemenu',

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
+import { mapState } from 'pinia';
+import { useAppStore, useUserStore, useSettingsStore } from '@/piniaStores';
 import ErrorLog from '@/components/ErrorLog';
 import Screenfull from '@/components/Screenfull';
 import SizeSelect from '@/components/SizeSelect';
@@ -29,19 +29,24 @@ export default {
     RightMenu,
   },
   computed: {
-    ...mapGetters(['sidebar', 'avatar', 'nickname', 'device']),
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
-    layout() {
-      return this.$store.state.settings.layout;
-    },
-    navbarBg() {
-      if (this.layout !== 'sidemenu' && this.navTheme === 'dark') {
-        return TopbarBG;
-      }
-      return '';
-    },
+    ...mapState(useAppStore, {
+      sidebar: (store) => store.sidebar,
+      device: (store) => store.device,
+    }),
+    ...mapState(useUserStore, {
+      avatar: (store) => store.avatar,
+      nickName: (store) => store.realname,
+    }),
+    ...mapState(useSettingsStore, {
+      navTheme: (store) => store.navTheme,
+      layout: (store) => store.layout,
+      navbarBg(store) {
+        if (store.layout !== 'sidemenu' && store.navTheme === 'dark') {
+          return TopbarBG;
+        }
+        return '';
+      },
+    }),
   },
   data() {
     return {
@@ -74,7 +79,8 @@ $height: 60px;
   &.sidemenu.light {
     background: $primary-color;
   }
-  &.topmenu {
+  &.topmenu,
+  &.topTreemenu {
     height: $topHeight;
 
     .hamburger-container {

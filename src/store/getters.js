@@ -13,7 +13,6 @@ const getters = {
     state.user.realname = Vue.ls.get(USER_INFO).realname;
     return state.user.realname;
   },
-  introduction: (state) => state.user.introduction,
   roles: (state) => state.user.roles,
   permissionList: (state) => state.user.permissionList,
   permission_routes: (state) => state.permission.routes,

@@ -1,5 +1,5 @@
 import router from './router/index';
-import store from './store/index';
+import store, { useUserStore, usePermissionStore } from './piniaStores';
 import { Message } from 'element-ui';
 import NProgress from 'nprogress'; // progress bar
 import 'nprogress/nprogress.css'; // progress bar style
@@ -11,6 +11,8 @@ NProgress.configure({ showSpinner: false }); // NProgress Configuration
 const whiteList = ['/user/login', '/user/register', '/user/register-result', '/user/alteration']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore(store);
+  const permissionStore = usePermissionStore(store);
   // start progress bar
   NProgress.start();
 
@@ -52,16 +54,16 @@ router.beforeEach(async (to, from, next) => {
       //   }
       // }
 
-      if (store.getters.permissionList.length === 0) {
-        store
-          .dispatch('user/getPermissionList')
+      if (userStore.permissionList.length === 0) {
+        userStore
+          .getPermissionList()
           .then((res) => {
             const menuData = res.result.menu;
             if (menuData === null || menuData === '' || menuData === undefined) {
               return;
             }
             // 添加主界面路由
-            store.dispatch('permission/updateAppRouter', { menuData }).then((addRouters) => {
+            permissionStore.updateAppRouter({ menuData }).then((addRouters) => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
               console.log(addRouters);
@@ -81,7 +83,7 @@ router.beforeEach(async (to, from, next) => {
               message: '系统提示',
               description: '请求用户信息失败，请重试！'
             })*/
-            store.dispatch('user/logout').then(() => {
+            userStore.logout().then(() => {
               next({ path: '/user/login', query: { redirect: to.fullPath } });
             });
           });

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { MessageBox, Message } from 'element-ui';
+import store, { useUserStore } from '@/piniaStores';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_APP_API_BASE_URL,
@@ -43,7 +44,8 @@ instance.interceptors.response.use(
             type: 'warning',
           },
         ).then(() => {
-          store.dispatch('user/resetToken').then(() => {
+          const userStore = useUserStore(store);
+          userStore.resetToken().then(() => {
             location.reload();
           });
         });

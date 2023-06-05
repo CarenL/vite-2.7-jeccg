@@ -3,18 +3,8 @@ import defaultSettings from '@/settings';
 import variables from '@/styles/variables.module.scss';
 import { updateTheme, updateWeak } from '@/utils/setting';
 
-const {
-  showSettings,
-  theme,
-  layout,
-  contentWidth,
-  fixedHeader,
-  fixSiderbar,
-  colorWeak,
-  tagsView,
-  sidebarLogo,
-  navTheme,
-} = defaultSettings;
+const { showSettings, layout, contentWidth, fixedHeader, fixSiderbar, colorWeak, tagsView, sidebarLogo, navTheme } =
+  defaultSettings;
 
 const state = {
   showSettings: showSettings,

@@ -95,6 +95,8 @@
 </template>
 
 <script>
+import { mapState, mapWritableState, mapActions } from 'pinia';
+import { useSettingsStore } from '@/piniaStores';
 // import ThemePicker from '@/components/ThemePicker';
 
 export default {
@@ -103,18 +105,22 @@ export default {
     return {};
   },
   computed: {
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
-    layout() {
-      return this.$store.state.settings.layout;
-    },
+    ...mapState(useSettingsStore, {
+      navTheme: (store) => store.navTheme,
+      layout: (store) => store.layout,
+      themeStore: (store) => store.theme,
+      contentWidthStore: (store) => store.contentWidth,
+      fixedHeaderStore: (store) => store.fixedHeader,
+      colorWeakStore: (store) => store.colorWeak,
+      tagsViewStore: (store) => store.tagsView,
+      sidebarLogoStore: (store) => store.sidebarLogo,
+    }),
     theme: {
       get() {
-        return this.$store.state.settings.theme;
+        return this.themeStore;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
+        this.changeSetting({
           key: 'theme',
           value: val,
         });
@@ -122,10 +128,10 @@ export default {
     },
     contentWidth: {
       get() {
-        return this.$store.state.settings.contentWidth;
+        return this.contentWidthStore;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
+        this.changeSetting({
           key: 'contentWidth',
           value: val,
         });
@@ -133,10 +139,10 @@ export default {
     },
     fixedHeader: {
       get() {
-        return this.$store.state.settings.fixedHeader;
+        return this.fixedHeaderStore;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
+        this.changeSetting({
           key: 'fixedHeader',
           value: val,
         });
@@ -144,10 +150,10 @@ export default {
     },
     colorWeak: {
       get() {
-        return this.$store.state.settings.colorWeak;
+        return this.colorWeakStore;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
+        this.changeSetting({
           key: 'colorWeak',
           value: val,
         });
@@ -155,10 +161,10 @@ export default {
     },
     tagsView: {
       get() {
-        return this.$store.state.settings.tagsView;
+        return this.tagsViewStore;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
+        this.changeSetting({
           key: 'tagsView',
           value: val,
         });
@@ -166,10 +172,10 @@ export default {
     },
     sidebarLogo: {
       get() {
-        return this.$store.state.settings.sidebarLogo;
+        return this.sidebarLogoStore;
       },
       set(val) {
-        this.$store.dispatch('settings/changeSetting', {
+        this.changeSetting({
           key: 'sidebarLogo',
           value: val,
         });
@@ -178,23 +184,24 @@ export default {
   },
   methods: {
     themeChange(val) {
-      this.$store.dispatch('settings/changeSetting', {
+      this.changeSetting({
         key: 'theme',
         value: val,
       });
     },
     handleMenuTheme(val) {
-      this.$store.dispatch('settings/changeSetting', {
+      this.changeSetting({
         key: 'navTheme',
         value: val,
       });
     },
     handleLayout(val) {
-      this.$store.dispatch('settings/changeSetting', {
+      this.changeSetting({
         key: 'layout',
         value: val,
       });
     },
+    ...mapActions(useSettingsStore, ['changeSetting']),
   },
 };
 </script>

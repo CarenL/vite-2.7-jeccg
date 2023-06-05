@@ -8,20 +8,36 @@
         :item="route"
         :base-path="route.path"
         class="topbar-menu-item"
+        :layout="layout"
       />
     </el-menu>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'pinia';
+import store, { useAppStore, usePermissionStore, useSettingsStore } from '@/piniaStores';
 import Logo from './Logo.vue';
 import SidebarItem from '../Sidebar/SidebarItem.vue';
 
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters(['sidebar', 'permission_routes']),
+    ...mapState(useAppStore, {
+      sidebar: (store) => store.sidebar,
+    }),
+    ...mapState(usePermissionStore, {
+      permission_routes: (store) => store.routes,
+    }),
+    ...mapState(useSettingsStore, {
+      showLogo: (store) => store.sidebarLogo,
+      navTheme: (store) => store.navTheme,
+      theme: (store) => store.theme,
+      layout: (store) => store.layout,
+    }),
+    isCollapse() {
+      return !this.sidebar.opened;
+    },
     routes() {
       return this.$router.options.routes;
     },
@@ -33,18 +49,6 @@ export default {
         return meta.activeMenu;
       }
       return path;
-    },
-    showLogo() {
-      return this.$store.state.settings.sidebarLogo;
-    },
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
-    theme() {
-      return this.$store.state.settings.theme;
-    },
-    isCollapse() {
-      return !this.sidebar.opened;
     },
   },
 };

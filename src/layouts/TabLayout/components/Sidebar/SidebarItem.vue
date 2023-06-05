@@ -14,28 +14,48 @@
       </app-link>
     </template>
 
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" :popper-class="navTheme">
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" :popper-class="navTheme + ' ' + layout">
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
-      <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
-        :is-nest="true"
-        :item="child"
-        :base-path="resolvePath(child.path)"
-        class="nest-menu"
-      />
+      <template v-if="layout != 'topTreemenu' || (layout === 'topTreemenu' && hasNoThirdChild(item.children, item))">
+        <sidebar-item
+          v-for="child in item.children"
+          :key="child.path"
+          :is-nest="true"
+          :item="child"
+          :base-path="resolvePath(child.path)"
+          class="nest-menu"
+        />
+      </template>
+      <template v-else>
+        <el-menu-item-group v-for="child in item.children" :key="child.path" class="nest-menu">
+          <template #title>
+            {{ child.meta.title }}
+          </template>
+          <sidebar-item
+            v-for="child1 in child.children"
+            :key="child1.path"
+            :is-nest="true"
+            :item="child1"
+            :base-path="resolvePath(child1.path, child.path)"
+            layout="topmenu"
+            class="nest-menu"
+          />
+        </el-menu-item-group>
+      </template>
     </el-submenu>
   </div>
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useSettingsStore } from '@/piniaStores';
 import path from 'path';
 import { isExternal } from '@/utils/validate';
-import Item from './Item.vue';
-import AppLink from './Link.vue';
-import FixiOSBug from './FixiOSBug';
+import Item from '../Sidebar/Item.vue';
+import AppLink from '../Sidebar/Link.vue';
+import FixiOSBug from '../Sidebar/FixiOSBug';
 
 export default {
   name: 'SidebarItem',
@@ -55,11 +75,13 @@ export default {
       type: String,
       default: '',
     },
+    layout: {
+      type: String,
+      default: 'sidemenu',
+    },
   },
   computed: {
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
+    ...mapState(useSettingsStore, ['navTheme']),
   },
   data() {
     // To fix https://github.com/PanJiaChen/vue-admin-template/issues/237
@@ -68,6 +90,18 @@ export default {
     return {};
   },
   methods: {
+    hasNoThirdChild(children = [], item) {
+      const showingChildren = children.filter((item) => {
+        if (item.children && item.children.length > 0) {
+          return true;
+        }
+      });
+      console.log(showingChildren);
+      if (showingChildren.length === 0) {
+        return true;
+      }
+      return false;
+    },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter((item) => {
         if (item.hidden) {
@@ -92,14 +126,19 @@ export default {
 
       return false;
     },
-    resolvePath(routePath) {
+    resolvePath(routePath, parentPath) {
       if (isExternal(routePath)) {
         return routePath;
       }
       if (isExternal(this.basePath)) {
         return this.basePath;
       }
-      return path.resolve(this.basePath, routePath);
+      if (parentPath) {
+        let basePath = path.resolve(this.basePath, parentPath);
+        return path.resolve(basePath, routePath);
+      } else {
+        return path.resolve(this.basePath, routePath);
+      }
     },
   },
 };

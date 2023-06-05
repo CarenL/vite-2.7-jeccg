@@ -9,12 +9,14 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useTagsViewStore } from '@/piniaStores';
 export default {
   name: 'AppMain',
   computed: {
-    cachedViews() {
-      return this.$store.state.tagsView.cachedViews;
-    },
+    ...mapState(useTagsViewStore, {
+      cachedViews: (store) => store.cachedViews,
+    }),
     key() {
       return this.$route.path;
     },

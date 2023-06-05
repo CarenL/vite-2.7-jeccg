@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useSettingsStore } from '@/piniaStores';
 import { addClass, removeClass } from '@/utils/common';
 
 export default {
@@ -33,9 +35,9 @@ export default {
     };
   },
   computed: {
-    theme() {
-      return this.$store.state.settings.theme;
-    },
+    ...mapState(useSettingsStore, {
+      theme: (store) => store.theme,
+    }),
   },
   watch: {
     show(value) {

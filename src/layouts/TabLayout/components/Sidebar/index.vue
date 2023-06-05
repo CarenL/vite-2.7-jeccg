@@ -16,14 +16,28 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'pinia';
+import { useAppStore, usePermissionStore, useSettingsStore } from '@/piniaStores';
 import Logo from './Logo.vue';
 import SidebarItem from './SidebarItem.vue';
 
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters(['sidebar', 'permission_routes']),
+    ...mapState(useAppStore, {
+      sidebar: (store) => store.sidebar,
+    }),
+    ...mapState(usePermissionStore, {
+      permission_routes: (store) => store.routes,
+    }),
+    ...mapState(useSettingsStore, {
+      showLogo: (store) => store.sidebarLogo,
+      navTheme: (store) => store.navTheme,
+      theme: (store) => store.theme,
+    }),
+    isCollapse() {
+      return !this.sidebar.opened;
+    },
     routes() {
       return this.$router.options.routes;
     },
@@ -36,15 +50,9 @@ export default {
       }
       return path;
     },
-    showLogo() {
-      return this.$store.state.settings.sidebarLogo;
-    },
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
-    isCollapse() {
-      return !this.sidebar.opened;
-    },
+  },
+  created() {
+    console.log(this.permission_routes);
   },
 };
 </script>

@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import { mapActions } from 'pinia';
+import { useUserStore } from '@/piniaStores';
 import { getCaptchaImage } from '@/api/user';
 import { genId } from '@/utils/common';
 import IMAGE from '@/assets/checkcode.png';
@@ -166,13 +168,12 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
-          this.$store
-            .dispatch('user/login', {
-              captcha: this.loginForm.captcha,
-              checkKey: this.captchaKey,
-              username: this.loginForm.username,
-              password: this.loginForm.password,
-            })
+          this.login({
+            captcha: this.loginForm.captcha,
+            checkKey: this.captchaKey,
+            username: this.loginForm.username,
+            password: this.loginForm.password,
+          })
             .then(() => {
               this.getCaptcha();
               console.log('登录成功');
@@ -189,6 +190,7 @@ export default {
         }
       });
     },
+    ...mapActions(useUserStore, ['login']),
   },
 };
 </script>
