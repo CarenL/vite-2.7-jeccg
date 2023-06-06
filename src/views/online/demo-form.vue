@@ -1,10 +1,10 @@
 <template>
-  <el-main>主页</el-main>
+  <div class="demo-form"></div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'DemoForm',
 };
 </script>
 

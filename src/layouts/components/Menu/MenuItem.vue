@@ -53,9 +53,9 @@ import { mapState } from 'pinia';
 import { useSettingsStore } from '@/piniaStores';
 import path from 'path';
 import { isExternal } from '@/utils/validate';
-import Item from '../Sidebar/Item.vue';
-import AppLink from '../Sidebar/Link.vue';
-import FixiOSBug from '../Sidebar/FixiOSBug';
+import Item from './Item.vue';
+import AppLink from './Link.vue';
+import FixiOSBug from './FixiOSBug';
 
 export default {
   name: 'SidebarItem',
@@ -96,7 +96,6 @@ export default {
           return true;
         }
       });
-      console.log(showingChildren);
       if (showingChildren.length === 0) {
         return true;
       }

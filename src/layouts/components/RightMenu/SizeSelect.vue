@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import { mapState } from 'pinia';
-import { useAppStore } from '@/piniaStores';
+import { mapState, mapActions } from 'pinia';
+import { useAppStore, useTagsViewStore } from '@/piniaStores';
 export default {
   data() {
     return {
@@ -38,7 +38,7 @@ export default {
   methods: {
     handleSetSize(size) {
       this.$ELEMENT.size = size;
-      this.$store.dispatch('app/setSize', size);
+      this.setSize(size);
       this.refreshView();
       this.$message({
         message: 'Switch Size Success',
@@ -47,7 +47,7 @@ export default {
     },
     refreshView() {
       // In order to make the cached page re-rendered
-      this.$store.dispatch('tagsView/delAllCachedViews', this.$route);
+      this.delAllCachedViews(this.$route);
 
       const { fullPath } = this.$route;
 
@@ -57,6 +57,8 @@ export default {
         });
       });
     },
+    ...mapActions(useTagsViewStore, ['delAllCachedViews']),
+    ...mapActions(useAppStore, ['setSize']),
   },
 };
 </script>

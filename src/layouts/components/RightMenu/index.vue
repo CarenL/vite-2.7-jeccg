@@ -18,11 +18,11 @@
             src="https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80"
             class="user-avatar"
           /> -->
-        <span class="username">{{ realname }}</span>
+        <span class="username">{{ nickname }}</span>
         <i class="el-icon-caret-bottom" />
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
-        <el-dropdown-item @click.native="logout">
+        <el-dropdown-item @click.native="userLogout">
           <span style="display: block">退出</span>
         </el-dropdown-item>
       </el-dropdown-menu>
@@ -33,10 +33,10 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import { useAppStore, useUserStore, useSettingsStore } from '@/piniaStores';
-import ErrorLog from '@/components/ErrorLog';
-import Screenfull from '@/components/Screenfull';
-import SizeSelect from '@/components/SizeSelect';
-import Search from '@/components/HeaderSearch';
+import ErrorLog from './ErrorLog';
+import Screenfull from './Screenfull';
+import SizeSelect from './SizeSelect';
+import Search from './HeaderSearch';
 
 export default {
   components: {
@@ -46,17 +46,14 @@ export default {
     Search,
   },
   computed: {
-    ...mapState(useUserStore, ['avatar', 'realname']),
+    ...mapState(useUserStore, ['avatar', 'nickname']),
     ...mapState(useSettingsStore, {
       theme: (store) => store.theme,
     }),
     ...mapState(useAppStore, ['device']),
   },
-  created() {
-    console.log(this.nickname);
-  },
   methods: {
-    async logout() {
+    async userLogout() {
       await this.logout();
       this.$router.push(`/user?redirect=${this.$route.fullPath}`);
     },

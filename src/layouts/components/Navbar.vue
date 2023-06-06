@@ -5,6 +5,7 @@
     :style="{ backgroundImage: navbarBg ? 'url(' + navbarBg + ')' : 'none' }"
   >
     <slot name="topbar"></slot>
+    <slot name="hamburger"></slot>
     <slot name="sidemenu"></slot>
     <RightMenu />
   </div>
@@ -12,52 +13,30 @@
 
 <script>
 import { mapState } from 'pinia';
-import { useAppStore, useUserStore, useSettingsStore } from '@/piniaStores';
-import ErrorLog from '@/components/ErrorLog';
-import Screenfull from '@/components/Screenfull';
-import SizeSelect from '@/components/SizeSelect';
-import Search from '@/components/HeaderSearch';
-import RightMenu from './RightMenu.vue';
+import { useSettingsStore } from '@/piniaStores';
+import RightMenu from './RightMenu/index.vue';
 import TopbarBG from '@/assets/topBG1.png';
 
 export default {
   components: {
-    ErrorLog,
-    Screenfull,
-    SizeSelect,
-    Search,
     RightMenu,
   },
   computed: {
-    ...mapState(useAppStore, {
-      sidebar: (store) => store.sidebar,
-      device: (store) => store.device,
-    }),
-    ...mapState(useUserStore, {
-      avatar: (store) => store.avatar,
-      nickName: (store) => store.realname,
-    }),
     ...mapState(useSettingsStore, {
       navTheme: (store) => store.navTheme,
       layout: (store) => store.layout,
-      navbarBg(store) {
-        if (store.layout !== 'sidemenu' && store.navTheme === 'dark') {
-          return TopbarBG;
-        }
-        return '';
-      },
     }),
+    navbarBg() {
+      if (this.layout !== 'sidemenu' && this.navTheme === 'dark') {
+        return TopbarBG;
+      }
+      return '';
+    },
   },
   data() {
     return {
       topBG: TopbarBG,
     };
-  },
-  methods: {
-    async logout() {
-      await this.$store.dispatch('user/logout');
-      this.$router.push(`/user?redirect=${this.$route.fullPath}`);
-    },
   },
 };
 </script>

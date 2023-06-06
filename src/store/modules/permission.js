@@ -1,6 +1,6 @@
 import { constantRoutes, asyncRouterMap } from '@/router';
-import Layout from '@/layouts/TabLayout';
-import RouterView from '@/layouts/RouterView';
+// import Layout from '@/layouts/TabLayout';
+// import RouterView from '@/layouts/RouterView';
 
 const modules = import.meta.glob('@/views/**/**.vue');
 
@@ -29,10 +29,10 @@ function generateChildRouters(data) {
     let conponentPath = '';
     if (item.component.indexOf('TabLayout') >= 0) {
       component = item.component;
-      conponentPath = Layout;
+      conponentPath = () => import('@/layouts/TabLayout');
     } else if (item.component.indexOf('RouterView') >= 0) {
       component = item.component;
-      conponentPath = RouterView;
+      conponentPath = () => import('@/layouts/RouterView');
     } else {
       component = 'views/' + item.component + '.vue';
       conponentPath = resolveComponent(component);

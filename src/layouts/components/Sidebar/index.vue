@@ -19,7 +19,7 @@
 import { mapState } from 'pinia';
 import { useAppStore, usePermissionStore, useSettingsStore } from '@/piniaStores';
 import Logo from './Logo.vue';
-import SidebarItem from './SidebarItem.vue';
+import SidebarItem from '../Menu/MenuItem.vue';
 
 export default {
   components: { SidebarItem, Logo },
@@ -50,9 +50,6 @@ export default {
       }
       return path;
     },
-  },
-  created() {
-    console.log(this.permission_routes);
   },
 };
 </script>

@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useSettingsStore } from '@/piniaStores';
 import LOGO from '@/assets/logo.png';
 import LOGONAME from '@/assets/logo-name.png';
 export default {
@@ -20,14 +22,12 @@ export default {
     },
   },
   computed: {
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
+    ...mapState(useSettingsStore, ['navTheme', 'theme']),
     backgroundColor() {
       if (this.navTheme === 'dark') {
         return '#002140';
       } else if (this.navTheme === 'light') {
-        return this.$store.state.settings.theme;
+        return this.theme;
       }
     },
     logoUrl() {
@@ -58,6 +58,16 @@ $height: 60px;
 .sidebarLogoFade-enter,
 .sidebarLogoFade-leave-to {
   opacity: 0;
+}
+
+.topbar {
+  .sidebar-logo-container {
+    height: $topHeight !important;
+
+    .sidebar-logo-link {
+      line-height: $topHeight;
+    }
+  }
 }
 
 .sidebar-logo-container {

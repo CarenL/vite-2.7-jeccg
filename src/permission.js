@@ -6,13 +6,21 @@ import 'nprogress/nprogress.css'; // progress bar style
 import { getToken } from '@/utils/auth'; // get token from cookie
 import getPageTitle from '@/utils/get-page-title';
 
+//定义全局变量，防止重复赋值
+let userStore = null,
+  permissionStore = null;
+
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
 const whiteList = ['/user/login', '/user/register', '/user/register-result', '/user/alteration']; // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore(store);
-  const permissionStore = usePermissionStore(store);
+  if (!userStore) {
+    userStore = useUserStore(store);
+  }
+  if (!permissionStore) {
+    permissionStore = usePermissionStore(store);
+  }
   // start progress bar
   NProgress.start();
 
@@ -66,7 +74,6 @@ router.beforeEach(async (to, from, next) => {
             permissionStore.updateAppRouter({ menuData }).then((addRouters) => {
               // 根据roles权限生成可访问的路由表
               // 动态添加可访问路由表
-              console.log(addRouters);
               addRouters.forEach((item) => router.addRoute(item));
               const redirect = decodeURIComponent(from.query.redirect || to.path);
               if (to.path === redirect) {

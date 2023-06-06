@@ -23,6 +23,9 @@ import '@/icons'; // icon
 import 'virtual:svg-icons-register'; // svg-register
 import './permission'; // permission control
 
+//自定义组件注册
+import zclzComponents from '@/components/zclz/form';
+
 //页面刷新数据同步
 import SSO from '@/cas/sso.js';
 import { SIDEBAR_TYPE, SIZE_TYPE } from '@/store/mutation-types';
@@ -46,6 +49,8 @@ Vue.use(ElementUI, {
   size: Vue.ls.get(SIZE_TYPE, 'medium'), // set element-ui default size
   // locale
 });
+
+Vue.use(zclzComponents);
 
 SSO.init(async () => {
   await initConfig();

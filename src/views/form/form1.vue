@@ -57,7 +57,8 @@
     </el-main>
     </template>
     <script>
-        export default {
+    export default {
+          name:'Form1',
           data() {
             return {
               ruleForm: {

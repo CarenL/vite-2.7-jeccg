@@ -1,8 +1,7 @@
-import TabLayout from '@/layouts/TabLayout/index.vue';
 export default [
   {
     path: '/',
-    component: TabLayout,
+    component: () => import('@/layouts/TabLayout'),
     redirect: '/home',
     meta: {
       title: '主页',

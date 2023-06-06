@@ -1,5 +1,5 @@
-import Layout from '@/layouts/TabLayout';
-import RouterView from '@/layouts/RouterView';
+// import Layout from '@/layouts/TabLayout';
+// import RouterView from '@/layouts/RouterView';
 
 const modules = import.meta.glob('@/views/**/**.vue');
 
@@ -10,7 +10,7 @@ export function generateIndexRouter(data, asyncRouterMap) {
   // const indexRouter = asyncRouterMap.find((item) => item.path === '/');
   // indexRouter.children = [...generateChildRouters(data)];
   // return [...asyncRouterMap];
-  // 重定向也放入后台
+  // 重定向路由也放入后台
   let routers = generateChildRouters(data);
   routers = routers.concat(asyncRouterMap);
   return [...routers];

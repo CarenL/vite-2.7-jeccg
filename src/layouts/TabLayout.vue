@@ -1,3 +1,4 @@
+<!-- 菜单栏一级路由 -->
 <template>
   <div :class="set.classObj" class="app-wrapper">
     <div v-if="set.device === 'mobile' && set.sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
@@ -12,13 +13,15 @@
           <template #topbar v-if="set.layout !== 'sidemenu'">
             <topbar class="topbar-container" :class="[set.navTheme, set.fixedHeader ? 'fixed-sidebar' : '']"></topbar>
           </template>
-          <template #sidemenu v-if="set.layout === 'sidemenu'">
+          <template #hamburger>
             <hamburger
               id="hamburger-container"
               :is-active="set.sidebar.opened"
               class="hamburger-container"
               @toggleClick="toggleSideBar"
             />
+          </template>
+          <template #sidemenu v-if="set.layout === 'sidemenu'">
             <breadcrumb id="breadcrumb-container" class="breadcrumb-container" />
           </template>
         </navbar>
@@ -34,13 +37,11 @@
 
 <script setup>
 import { ref, reactive, computed, watch, watchEffect, onMounted, onBeforeMount, onBeforeUnmount, toRefs } from 'vue';
-import { useStore, useRoute } from '@/utils/useApi';
-import RightPanel from '@/components/RightPanel';
+import { useRoute } from '@/utils/useApi';
+import RightPanel from './components/RightPanel';
 import { AppMain, Navbar, Settings, Sidebar, TagsView, Topbar } from './components';
-import Breadcrumb from '@/components/Breadcrumb/index.vue';
-import Hamburger from '@/components/Hamburger/index.vue';
-import variables from '@/styles/variables.module.scss';
-import variablesLight from '@/styles/variables-light.module.scss';
+import Breadcrumb from './components/Breadcrumb/index.vue';
+import Hamburger from './components/Hamburger/index.vue';
 import { useAppStore, useSettingsStore } from '@/piniaStores';
 
 //https://cn.vuejs.org/api/reactivity-core.html
@@ -92,14 +93,32 @@ const toggleSideBar = () => {
   appStore.toggleSideBar();
 };
 
+const setSidebar = (params) => {
+  appStore.setSidebar(params);
+};
+
 const route = useRoute();
 const WIDTH = ref(992);
 
 watchEffect(() => {
-  if (set.device === 'mobile' && !set.sidebar.opened) {
+  if (set.device === 'mobile' && !set.sidebar.opened && set.layout === 'sidemenu') {
     handleClickOutside(false);
   }
 });
+
+watch(
+  () => set.device,
+  async () => {
+    if (set.layout !== 'sidemenu') {
+      if (set.device === 'mobile') {
+        setSidebar(true);
+      } else {
+        setSidebar(false);
+      }
+    }
+  },
+  { immediate: true },
+);
 
 watch(
   () => route,
@@ -121,7 +140,7 @@ const $_resizeHandler = () => {
     const isMobile = $_isMobile();
     appStore.toggleDevice(isMobile ? 'mobile' : 'desktop');
 
-    if (isMobile) {
+    if (isMobile && set.layout === 'sidemenu') {
       handleClickOutside(true);
     }
   }

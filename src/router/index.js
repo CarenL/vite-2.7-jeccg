@@ -2,10 +2,10 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import user from './modules/user';
-import home from './modules/home';
+// import home from './modules/home';
 import redirect from './modules/redirect';
-import form from './modules/form';
-import chart from './modules/chart';
+// import form from './modules/form';
+// import chart from './modules/chart';
 
 //3.1以上版本返回Promise需要兼容
 const originalPush = VueRouter.prototype.push;

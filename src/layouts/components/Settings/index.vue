@@ -62,13 +62,13 @@
             </div>
           </el-tooltip>
         </div>
-        <div class="drawer-block-set" v-if="layout !== 'sidemenu'">
+        <!-- <div class="drawer-block-set" v-if="layout !== 'sidemenu'">
           <span class="drawer-title">内容区域宽度</span>
           <el-select v-model="contentWidth" size="mini" popper-class="theme-picker-dropdown">
             <el-option label="固定" value="Fixed"></el-option>
             <el-option label="流式" value="Fluid"></el-option>
           </el-select>
-        </div>
+        </div> -->
         <div class="drawer-block-set">
           <span class="drawer-title">固定 Header</span>
           <el-switch v-model="fixedHeader" class="drawer-switch" />
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { mapState, mapWritableState, mapActions } from 'pinia';
+import { mapStores, mapActions } from 'pinia';
 import { useSettingsStore } from '@/piniaStores';
 // import ThemePicker from '@/components/ThemePicker';
 
@@ -105,19 +105,16 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(useSettingsStore, {
-      navTheme: (store) => store.navTheme,
-      layout: (store) => store.layout,
-      themeStore: (store) => store.theme,
-      contentWidthStore: (store) => store.contentWidth,
-      fixedHeaderStore: (store) => store.fixedHeader,
-      colorWeakStore: (store) => store.colorWeak,
-      tagsViewStore: (store) => store.tagsView,
-      sidebarLogoStore: (store) => store.sidebarLogo,
-    }),
+    ...mapStores(useSettingsStore),
+    navTheme() {
+      return this.settingsStore.navTheme;
+    },
+    layout() {
+      return this.settingsStore.layout;
+    },
     theme: {
       get() {
-        return this.themeStore;
+        return this.settingsStore.theme;
       },
       set(val) {
         this.changeSetting({
@@ -128,7 +125,7 @@ export default {
     },
     contentWidth: {
       get() {
-        return this.contentWidthStore;
+        return this.settingsStore.contentWidth;
       },
       set(val) {
         this.changeSetting({
@@ -139,7 +136,7 @@ export default {
     },
     fixedHeader: {
       get() {
-        return this.fixedHeaderStore;
+        return this.settingsStore.fixedHeader;
       },
       set(val) {
         this.changeSetting({
@@ -150,7 +147,7 @@ export default {
     },
     colorWeak: {
       get() {
-        return this.colorWeakStore;
+        return this.settingsStore.colorWeak;
       },
       set(val) {
         this.changeSetting({
@@ -161,7 +158,7 @@ export default {
     },
     tagsView: {
       get() {
-        return this.tagsViewStore;
+        return this.settingsStore.tagsView;
       },
       set(val) {
         this.changeSetting({
@@ -172,7 +169,7 @@ export default {
     },
     sidebarLogo: {
       get() {
-        return this.sidebarLogoStore;
+        return this.settingsStore.sidebarLogo;
       },
       set(val) {
         this.changeSetting({
@@ -223,6 +220,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+@import '@/styles/variables.module.scss';
+$primary-color: $--color-primary;
+$primary-color: var(--primary-color, $--color-primary);
+
 .drawer-container {
   padding: 24px;
   font-size: 14px;
@@ -267,6 +268,7 @@ export default {
     .drawer-item {
       margin-right: 16px;
       position: relative;
+      line-height: 0;
       border-radius: 4px;
       cursor: pointer;
 
@@ -276,15 +278,20 @@ export default {
 
       .drawer-item-select {
         position: absolute;
-        top: 0;
+        bottom: 0;
         right: 0;
-        width: 100%;
-        padding-top: 15px;
-        padding-left: 24px;
-        height: 100%;
-        color: #1890ff;
-        font-size: 14px;
-        font-weight: 700;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        border-top-left-radius: 10px;
+        background-color: $primary-color;
+
+        i {
+          color: #fff;
+          font-size: 14px;
+          line-height: 20px;
+          font-weight: bolder;
+        }
       }
     }
   }

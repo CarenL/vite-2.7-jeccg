@@ -7,14 +7,14 @@
 </template>
 
 <script>
+import { mapState } from 'pinia';
+import { useSettingsStore } from '@/piniaStores';
 import LOGO from '@/assets/logo.png';
 import LOGONAME from '@/assets/logo-name.png';
 export default {
   name: 'TopbarLogo',
   computed: {
-    navTheme() {
-      return this.$store.state.settings.navTheme;
-    },
+    ...mapState(useSettingsStore, ['navTheme']),
     logoUrl() {
       if (this.navTheme === 'dark') {
         return !this.collapse ? window._CONFIG['DARK_LONG_LOGO_URL'] : window._CONFIG['DARK_LOGO_URL'];

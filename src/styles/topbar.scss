@@ -4,14 +4,14 @@ $primary-color:var(--primary-color,$--color-primary);
 
 .topbar-container {
   display: inline-block;
-  width: calc(100% - 300px);
+  width: calc(100% - 400px);
   height: 80px;
   margin: 0 10px;
 
   .el-menu {
     display: inline-block;
     width: calc(100% - 300px);
-    height: 60px;
+    height: 80px;
     margin-top: 20px;
     line-height: 80px;
     vertical-align: top;
@@ -227,5 +227,28 @@ $primary-color:var(--primary-color,$--color-primary);
       height: 40px;
       line-height: 40px;
     }
+}
+
+.topmenu,.topTreemenu{
+  .hamburger-container {
+    position: absolute;
+    left: 160px;
+    top: 0;
+    display: none;
+  }
+
+  &.dark{
+    .hamburger-container{
+      fill: #fff;
+    }
+  }
+}
+
+.topbar.mobile {
+  .topmenu,.topTreemenu{
+    .hamburger-container {
+      display: block;
+    }
+  }
 }
 

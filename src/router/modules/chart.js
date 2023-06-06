@@ -1,8 +1,7 @@
-import TabLayout from '@/layouts/TabLayout/index.vue';
 export default [
   {
     path: '/chart',
-    component: TabLayout,
+    component: () => import('@/layouts/TabLayout'),
     meta: {
       title: '图表',
       icon: 'el-icon-data-line',

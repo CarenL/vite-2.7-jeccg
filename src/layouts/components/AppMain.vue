@@ -14,9 +14,7 @@ import { useTagsViewStore } from '@/piniaStores';
 export default {
   name: 'AppMain',
   computed: {
-    ...mapState(useTagsViewStore, {
-      cachedViews: (store) => store.cachedViews,
-    }),
+    ...mapState(useTagsViewStore, ['cachedViews']),
     key() {
       return this.$route.path;
     },
@@ -29,7 +27,7 @@ $topHeight: 80px;
 $height: 60px;
 .app-main {
   /* 50= navbar  50  */
-  min-height: calc(100vh - $height);
+  min-height: calc(100vh - #{$height});
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -54,7 +52,7 @@ $height: 60px;
 .topbar {
   .app-main {
     /* 50= navbar  50  */
-    min-height: calc(100vh - $topHeight);
+    min-height: calc(100vh - #{$topHeight});
     width: 100%;
     position: relative;
     overflow: hidden;

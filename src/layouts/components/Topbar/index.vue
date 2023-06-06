@@ -1,7 +1,13 @@
 <template>
   <div :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" />
-    <el-menu :default-active="activeMenu" :unique-opened="false" :collapse-transition="false" mode="horizontal">
+    <el-menu
+      :default-active="activeMenu"
+      :unique-opened="false"
+      :collapse-transition="false"
+      mode="horizontal"
+      v-if="device !== 'mobile'"
+    >
       <sidebar-item
         v-for="route in permission_routes"
         :key="route.path"
@@ -16,16 +22,14 @@
 
 <script>
 import { mapState } from 'pinia';
-import store, { useAppStore, usePermissionStore, useSettingsStore } from '@/piniaStores';
+import { useAppStore, usePermissionStore, useSettingsStore } from '@/piniaStores';
 import Logo from './Logo.vue';
-import SidebarItem from '../Sidebar/SidebarItem.vue';
+import SidebarItem from '../Menu/MenuItem.vue';
 
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapState(useAppStore, {
-      sidebar: (store) => store.sidebar,
-    }),
+    ...mapState(useAppStore, ['sidebar', 'device']),
     ...mapState(usePermissionStore, {
       permission_routes: (store) => store.routes,
     }),

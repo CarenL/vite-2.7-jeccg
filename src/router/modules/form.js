@@ -1,8 +1,7 @@
-import TabLayout from '@/layouts/TabLayout/index.vue';
 export default [
   {
     path: '/form',
-    component: TabLayout,
+    component: () => import('@/layouts/TabLayout'),
     meta: {
       title: '表单',
       icon: 'form',

@@ -14,7 +14,7 @@ export const useRouter = () => {
   return vm.proxy.$router;
 };
 
-//访问route
+//访问route适用vuex
 export const useRoute = () => {
   const vm = getCurrentInstance();
   if (!vm) throw new Error('must be called in setup');

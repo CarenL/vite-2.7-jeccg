@@ -1,8 +1,7 @@
-import TabLayout from '@/layouts/TabLayout/index.vue';
 export default [
   {
     path: '/redirect',
-    component: TabLayout,
+    component: () => import('@/layouts/TabLayout'),
     hidden: true,
     children: [
       {

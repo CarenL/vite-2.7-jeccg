@@ -23,9 +23,9 @@ const useUserStore = defineStore('user', {
     permissionList: [],
     info: {},
   }),
-  getter: {
-    nickname: (state) => {
-      state.realname = Vue.ls.get(USER_INFO).realname;
+  getters: {
+    nickname(state) {
+      state.realname = Vue.ls.get(USER_INFO) && Vue.ls.get(USER_INFO).realname;
       return state.realname;
     },
   },
@@ -70,7 +70,6 @@ const useUserStore = defineStore('user', {
 
     // 获取用户信息
     getPermissionList() {
-      console.log('获取用户信息');
       return new Promise((resolve, reject) => {
         getInfo({ token: this.token })
           .then((response) => {
@@ -94,7 +93,6 @@ const useUserStore = defineStore('user', {
             } else {
               reject('getPermissionList: permissions must be a non-null array !');
             }
-            console.log(response);
             resolve(response);
           })
           .catch((error) => {

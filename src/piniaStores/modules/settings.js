@@ -30,7 +30,7 @@ const useSettingsStore = defineStore('settings', {
         updateWeak(value);
       }
       // eslint-disable-next-line no-prototype-builtins
-      if (this[key]) {
+      if (typeof this[key] !== undefined) {
         this[key] = value;
         Vue.ls.set(key, value);
       }
