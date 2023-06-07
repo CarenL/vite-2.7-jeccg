@@ -49,7 +49,7 @@ const users = {
         },
         children: [
           {
-            path: '/home',
+            path: 'home',
             name: 'Home',
             component: 'home/index',
             meta: {
@@ -166,6 +166,26 @@ const users = {
                 },
               },
             ],
+          },
+        ],
+      },
+      {
+        path: '/online',
+        name: 'Online',
+        component: 'layouts/TabLayout',
+        meta: {
+          title: '在线开发',
+          icon: 'el-icon-cloudy',
+        },
+        children: [
+          {
+            path: 'demoForm',
+            name: 'DemoForm',
+            component: 'online/demo-form',
+            meta: {
+              title: '表单Demo',
+              icon: 'nested',
+            },
           },
         ],
       },

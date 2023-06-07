@@ -1,4 +1,4 @@
-const modulesFiles = import.meta.globEager('./*.vue');
+const modulesFiles = import.meta.glob('./*.vue');
 
 export default {
   install(Vue) {
@@ -6,6 +6,7 @@ export default {
     for (const key in modulesFiles) {
       console.log(key);
       const moduleName = key.replace(/(\.\/|\.vue)/g, '');
+      console.log(moduleName, modulesFiles[key]);
       Vue.component(moduleName, modulesFiles[key]);
     }
   },

@@ -50,6 +50,7 @@ Vue.use(ElementUI, {
   // locale
 });
 
+/* 注册自定义组件 */
 Vue.use(zclzComponents);
 
 SSO.init(async () => {

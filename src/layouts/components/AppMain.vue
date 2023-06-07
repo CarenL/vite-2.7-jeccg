@@ -25,52 +25,59 @@ export default {
 <style lang="scss" scoped>
 $topHeight: 80px;
 $height: 60px;
+$margin: 10px;
+$tagView: 50px;
 .app-main {
-  /* 50= navbar  50  */
-  min-height: calc(100vh - #{$height});
-  width: 100%;
+  min-height: calc(100vh - #{$height} - #{$margin} - #{$margin});
+  // width: 100%;
+  padding: $margin;
   position: relative;
   overflow: hidden;
   box-sizing: content-box;
+
+  .el-main {
+    background-color: #fff;
+    padding: 24px 22px;
+  }
 }
 
 .fixed-header + .app-main {
-  padding-top: $height;
+  padding-top: $height + $margin;
 }
 
 .hasTagsView {
   .app-main {
-    /* 84 = navbar + tags-view = 60 + 50 */
-    min-height: calc(100vh - 110px);
+    /* 110 = navbar + tags-view = 60 + 50 */
+    min-height: calc(100vh - #{$height} - #{$tagView} - #{$margin} - #{$margin});
   }
 
   .fixed-header + .app-main {
-    padding-top: 110px;
+    padding-top: $height + $tagView + $margin;
   }
 }
 // 顶部菜单栏
 .topbar {
   .app-main {
     /* 50= navbar  50  */
-    min-height: calc(100vh - #{$topHeight});
-    width: 100%;
+    min-height: calc(100vh - #{$topHeight} - #{$margin} - #{$margin});
+    // width: 100%;
     position: relative;
     overflow: hidden;
     box-sizing: content-box;
   }
 
   .fixed-header + .app-main {
-    padding-top: $topHeight;
+    padding-top: $topHeight + $topHeight;
   }
 
   .hasTagsView {
     .app-main {
       /* 84 = navbar + tags-view = 80 + 50 */
-      min-height: calc(100vh - 130px);
+      min-height: calc(100vh - #{$topHeight} - #{$tagView} - #{$margin} - #{$margin});
     }
 
     .fixed-header + .app-main {
-      padding-top: 130px;
+      padding-top: $topHeight + $tagView + $margin;
     }
   }
 }

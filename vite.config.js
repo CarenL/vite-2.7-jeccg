@@ -4,6 +4,7 @@ import { defineConfig, loadEnv } from 'vite';
 import legacy from '@vitejs/plugin-legacy';
 import vue2 from '@vitejs/plugin-vue2';
 import vueJsx from '@vitejs/plugin-vue2-jsx';
+import defineOptions from 'unplugin-vue-define-options/vite';
 import { resolve } from 'node:path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 import compressPlugin from 'vite-plugin-compression';
@@ -43,12 +44,12 @@ export default ({ mode }) => {
   const isBuild = mode === 'production';
   const port = loadEnv(mode, process.cwd()).PORT || 9528;
   const params = loadEnv(mode, process.cwd());
-  console.log(params);
   return defineConfig({
     base: params.VITE_APP_PUBLIC_PATH,
     assetsDir: 'src',
     plugins: [
       vue2(),
+      defineOptions(),
       vueJsx(),
       legacy({
         targets: ['ie >= 11'],
