@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <gi-select v-model="selectValue" :params="params"></gi-select>
+    <gi-select v-model="selectValue" :params="params" filterable placeholder="测试" @change="changeValue"></gi-select>
   </el-main>
 </template>
 
@@ -19,9 +19,9 @@ export default {
       ],
     };
   },
-  watch: {
-    selectValue(val) {
-      console.log(val);
+  methods: {
+    changeValue(value) {
+      console.log(value);
     },
   },
 };

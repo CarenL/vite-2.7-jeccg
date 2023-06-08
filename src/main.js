@@ -4,7 +4,9 @@ import 'normalize.css/normalize.css'; // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui';
 import variables from '@/styles/variables.module.scss';
+//生产环境使用
 // import '@/styles/element-variables.scss';
+//开发环境使用
 import 'element-ui/lib/theme-chalk/index.css';
 // import locale from 'element-ui/lib/locale/lang/en'; // lang i18n
 
@@ -58,6 +60,7 @@ SSO.init(async () => {
   main();
 });
 
+//vue2.7使用必带
 Vue.use(PiniaVuePlugin);
 
 function main() {
@@ -78,10 +81,10 @@ function main() {
         key: 'fixSiderbar',
         value: Vue.ls.get('fixSiderbar', config.fixSiderbar),
       });
-      settingsStore.changeSetting({
-        key: 'contentWidth',
-        value: Vue.ls.get('contentWidth', config.contentWidth),
-      });
+      // settingsStore.changeSetting({
+      //   key: 'contentWidth',
+      //   value: Vue.ls.get('contentWidth', config.contentWidth),
+      // });
       settingsStore.changeSetting({
         key: 'autoHideHeader',
         value: Vue.ls.get('autoHideHeader', config.autoHideHeader),

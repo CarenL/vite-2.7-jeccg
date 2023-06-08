@@ -2,13 +2,9 @@
   <div class="gi-select" :class="{ readonly }">
     <el-select
       v-model="innerValue"
-      :placeholder="placeholder"
-      :disabled="disabled || readonly"
       :multiple="multiple"
-      :clearable="clearable"
-      :multiple-limit="multipleLimit"
-      :collapse-tags="collapseTags"
-      :popper-append-to-body="false"
+      :disabled="disabled || readonly"
+      :title="title"
       v-bind="$attrs"
       v-on="{ ...$listeners }"
     >
@@ -18,6 +14,7 @@
         :disabled="item.disabled"
         :value="item.value"
         :label="item.label"
+        :title="item.title"
       >
       </el-option>
     </el-select>
@@ -29,31 +26,28 @@ import { computed } from 'vue';
 import { useComponentListOption } from './hook/useComponentListOption';
 defineOptions({
   name: 'GiSelect',
+  inheritAttrs: false, //属性透传自定义
 });
-// 定义props
+
+// 定义props(已定义不会透传，disabled,multiple为了响应赋值)
 const props = defineProps({
   /** v-model 绑定值 */
   value: {
     type: [String, Number, Array],
-  },
-  /** 占位符提示信息 */
-  placeholder: {
-    type: String,
-    default: '请选择',
-  },
-  /** 是否禁用 */
-  disabled: {
-    type: Boolean,
-    default: false,
   },
   /** 是否只读 */
   readonly: {
     type: Boolean,
     default: false,
   },
-  /** 是否多选 */
-  multiple: {
+  /** 是否禁用 */
+  disabled: {
     type: Boolean,
+    default: false,
+  },
+  /* 多选 */
+  multiple: {
+    type: [Boolean, String],
     default: false,
   },
   /** 选项数据 */
@@ -66,38 +60,59 @@ const props = defineProps({
     type: [String, Object],
     default: null,
   },
-  /** 是否允许清除 */
-  clearable: {
-    type: Boolean,
-    default: true,
-  },
-  /** 最多选择的数量 */
-  multipleLimit: {
-    type: Number,
-    default: 3,
-  },
-  /* 多选时是否折叠选中的多个值 */
-  collapseTags: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 // v-model处理 v2.7默认绑定value
 const emit = defineEmits(['update:value']);
 const innerValue = computed({
   get() {
-    return props.value;
+    if (props.multiple === '' || props.multiple) {
+      //多选情况下值以,连接
+      if (typeof props.value === 'string') {
+        return props.value ? props.value.split(',') : [];
+      } else {
+        return Array.isArray(props.value) ? props.value : [];
+      }
+    } else {
+      return props.value ? props.value : null;
+    }
   },
   set(value) {
     emit('update:value', value);
   },
 });
 
-const { innerOptions } = useComponentListOption(props);
-console.log(innerOptions);
+const { innerOptions, optionValueMap } = useComponentListOption(props);
+
+const title = computed(() => {
+  if (!innerValue.value) {
+    return '';
+  }
+  let selectOption = null;
+  if (Array.isArray(innerValue.value)) {
+    selectOption = innerValue.value.map((item) => optionValueMap.value.get(item));
+  } else {
+    selectOption = [optionValueMap.value.get(innerValue.value)];
+  }
+  return selectOption.map((item) => (item ? item.title : '')).join(',');
+});
 
 //选项值
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.gi-select {
+  display: inline-block;
+  &.readonly {
+    :deep(.el-select__tags-text) {
+      color: #909399;
+    }
+    :deep(.el-input.is-disabled .el-input__inner) {
+      color: #606266;
+      background-color: #fff;
+      border: 1px solid #dcdfe6;
+      cursor: not-allowed;
+    }
+  }
+}
+</style>

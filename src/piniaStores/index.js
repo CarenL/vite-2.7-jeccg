@@ -8,9 +8,10 @@ import useErrorLogStore from './modules/errorLog';
 
 const store = createPinia();
 
-export function registerStore(app) {
-  app.use(store);
-}
+// 适用vue3 多个vue实例并存的情况
+// export function registerStore(app) {
+//   app.use(store);
+// }
 
 export { useUserStore, useTagsViewStore, useAppStore, useSettingsStore, usePermissionStore, useErrorLogStore };
 
